@@ -1,0 +1,107 @@
+/**
+ * Main application sass file that contains all the application styling
+ */
+
+// import bryntum theme
+@import '~@bryntum/gantt/gantt.material.css';
+
+// import bryntum theme and example styles
+// @import '~@bryntum/demo-resources/scss/example.scss';
+
+body,
+html {
+    margin         : 0;
+    height         : 100vh;
+    // font-family    : Poppins, "Open Sans", Helvetica, Arial, sans-serif;
+    // font-size      : 14px;
+}
+
+#container {
+    flex    : 1 1 100%;
+}
+
+/**
+ * Main App scss file
+ */
+
+.b-gantt {
+    > .b-toolbar {
+        border-bottom : 1px solid;
+
+        > .b-content-element {
+            > .b-widget:not(.b-last-visible-child) {
+                margin-right : 1em;
+            }
+
+            .b-button {
+                min-width : 3.5em;
+            }
+        }
+    }
+}
+
+.filter-by-name label {
+    display : none;
+}
+
+.b-theme-stockholm .b-gantt > .b-toolbar {
+    border-bottom-color : #d8d9da;
+}
+
+.b-theme-classic .b-gantt > .b-toolbar {
+    background-color    : #f1f1f4;
+    border-bottom-color : #b0b0b6;
+
+    .b-has-label label {
+        color : #555;
+    }
+}
+
+.b-theme-classic-light .b-gantt > .b-toolbar {
+    background-color    : #fff;
+    border-bottom-color : #e0e0e0;
+}
+
+.b-theme-material .b-gantt > .b-toolbar {
+    background-color : #fff;
+    border-bottom    : none;
+
+    .filter-by-name label {
+        display : block;
+    }
+}
+
+.b-theme-classic-dark .b-gantt > .b-toolbar {
+    background-color    : #2b2b2f;
+    border-bottom-color : #2a2b2e;
+}
+
+.b-status-column-cell {
+    font-size       : 0.8em;
+}
+
+.b-status-column-cell i::before {
+    margin-right : .5em;
+}
+
+.Started {
+    color : #999;
+}
+
+.Notstarted {
+    color : #ddd;
+}
+
+.Late {
+    color : #ff5722;
+}
+
+.Completed {
+    color : #34d844;
+}
+
+.settings-menu .b-slider {
+    margin-bottom: 0.5em;
+}
+
+

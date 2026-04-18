@@ -1,0 +1,9 @@
+import { ObjectType, Field } from 'type-graphql';
+import { Role } from '../role.type';
+import { MutationPayload } from '../../../common/mutationPayload.type';
+
+@ObjectType()
+export class RoleUpdatePayload extends MutationPayload {
+  @Field()
+  role: Role;
+}

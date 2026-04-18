@@ -1,0 +1,54 @@
+/* 在你的 CSS 文件中添加這些樣式 */
+.profit-sheet-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profit-sheet-header {
+  margin-bottom: 20px;
+}
+
+.profit-sheet-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.profit-sheet-header .project-info {
+  margin-top: 10px;
+}
+
+.profit-sheet-header .project-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.profit-sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.profit-sheet-table th, .profit-sheet-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.profit-sheet-table th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.profit-sheet-table tfoot {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.profit-sheet-table tfoot td {
+  border-top: 2px solid #ddd;
+}

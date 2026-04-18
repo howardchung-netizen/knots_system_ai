@@ -1,0 +1,48 @@
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+
+./gradlew assembleRelease
+
+rm -rf ./android/app/src/main/res/drawable-*
+rm -rf ./android/app/src/main/res/raw
+
+react-native bundle --platform android --dev false \
+  --entry-file index.js \
+  --bundle-output android/app/src/main/assets/index.android.bundle \
+  --assets-dest android/app/build/intermediates/res/merged/release/
+cd android && ./gradlew assembleRelease
+
+./gradlew signingReport
+
+./gradlew clean
+./gradlew cleanBuildCache
+
+./gradlew assembleDebug
+./gradlew assembleRelease
+./gradlew bundleRelease
+
+watchman watch-del-all
+watchman watch-project
+
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+react-native run-android --variant=release
+
+npx jetify
+
+rm -rf node_modules && yarn cache clean
+rm -rf ~/.recache
+rm -rf ~/Library/Developer/Xcode/DerivedData
+
+npm cache clean --force
+yarn cache clean
+ccache --zero-stats
+ccache --clear
+
+sudo arch -x86_64 gem install ffi
+arch -x86_64 pod install
+
+bash my_vscode_extensions.sh
+
+
+
+

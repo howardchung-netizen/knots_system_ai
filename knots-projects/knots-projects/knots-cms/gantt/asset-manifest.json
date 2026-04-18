@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/cms/gantt_chart/static/css/main.ea83a5f7.chunk.css",
+    "main.js": "/cms/gantt_chart/static/js/main.c4c60496.chunk.js",
+    "runtime-main.js": "/cms/gantt_chart/static/js/runtime-main.0ecd09f6.js",
+    "static/js/2.5624d274.chunk.js": "/cms/gantt_chart/static/js/2.5624d274.chunk.js",
+    "index.html": "/cms/gantt_chart/index.html",
+    "precache-manifest.7f36e04c48b2e307df4cf995e717b8f4.js": "/cms/gantt_chart/precache-manifest.7f36e04c48b2e307df4cf995e717b8f4.js",
+    "service-worker.js": "/cms/gantt_chart/service-worker.js",
+    "static/js/2.5624d274.chunk.js.LICENSE.txt": "/cms/gantt_chart/static/js/2.5624d274.chunk.js.LICENSE.txt",
+    "static/media/App.scss": "/cms/gantt_chart/static/media/logo_bryntum_bw.3784cc4c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0ecd09f6.js",
+    "static/js/2.5624d274.chunk.js",
+    "static/css/main.ea83a5f7.chunk.css",
+    "static/js/main.c4c60496.chunk.js"
+  ]
+}

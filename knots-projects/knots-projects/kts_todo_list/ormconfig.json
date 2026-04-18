@@ -1,0 +1,21 @@
+{
+    "type":"mysql",
+    "host":"localhost",
+    "port":3306,
+    "username":"root",
+    "password":"Cow92165965",
+    "database":"KQS",
+    "extra": {
+    "connectionLimit": 10,
+    "timezone": "+08:00"
+    },
+    "timezone": "+08:00",
+    "logging": true,
+    "entities":["modules/**/*.entity.js"],
+    "subscribers": ["modules/**/*.subscriber.js"],
+    "migragtions": ["db/migrations/*.js"],
+    "migrationsTableName": "migration",
+    "cli": {
+        "migrationsDir": "src/db/migrations"
+    }
+}
