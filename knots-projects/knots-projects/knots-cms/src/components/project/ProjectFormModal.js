@@ -13,13 +13,18 @@ import { telCodes } from '../../constants/InputOptions';
 import { ProjectInfoForm } from './ProjectForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
+import { OptionsContext } from '../../contexts/OptionsContextProvider';
+import moment from 'moment';
 
 export default function ({ open, quotationId, onCloseClick, onCompleted, ...props }) {
 	
   const [user, userDispatch] = React.useContext(UserContext);
+  const [optionsContext, optionsContextDispatch, { projectStautsOptions, projectTypeOptions }] = React.useContext(OptionsContext);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const spotlight = props.mode == 'create' ? user.info.color : props.data?.spotlight;
+  const defaultStatusId = projectStautsOptions && projectStautsOptions.length > 0 ? projectStautsOptions[0].value : null;
+  const defaultTypeId = projectTypeOptions && projectTypeOptions.length > 0 ? projectTypeOptions[0].value : null;
   const [formData, setFormData] = React.useState({...props.data, spotlight: spotlight});
   const [inputError, setInputError] = React.useState({});
   const [formDataCreateMutate, createStatus] = useMutation(PROJECT_CREATE);
@@ -44,8 +49,8 @@ export default function ({ open, quotationId, onCloseClick, onCompleted, ...prop
 
   const checkInputError = () => {
     let inputError = {};
-    for (let i of ["code", "year", "statusId", "typeId", "start", "end"]) {
-      if (formData[i] == null || formData[i] == "" || formData[i] == '') inputError[i] = language.inputError.required;
+    for (let i of ["code", "year", "statusId", "typeId", "start", "end", "clientId"]) {
+      if (formData[i] == null || formData[i] === "") inputError[i] = language.inputError.required;
     }
     setInputError(inputError);
     
@@ -131,12 +136,25 @@ export default function ({ open, quotationId, onCloseClick, onCompleted, ...prop
 
   React.useEffect(() => {
     if(open) {
-      setFormData({
-        ...props.data,
-        spotlight: spotlight
-      })
+      if (props.mode === 'create') {
+        setFormData({
+          ...props.data,
+          spotlight: spotlight,
+          statusId: defaultStatusId,
+          typeId: defaultTypeId,
+          start: moment().format('YYYY-MM-DD'),
+          end: moment().format('YYYY-MM-DD'),
+          year: new Date().getFullYear(),
+        });
+      } else {
+        setFormData({
+          ...props.data,
+          spotlight: spotlight
+        });
+      }
+      setInputError({});
     }
-  }, [props.data, props.mode, open])
+  }, [props.data, props.mode, open, defaultStatusId, defaultTypeId]);
 
   return (
     <>

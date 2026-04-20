@@ -292,60 +292,67 @@ export const quotationMenu = [{
 }];
 
 export const accounttingMenu = [
+    // --- 舊版會計功能 (隱藏停用區，等待會計測試新 Excel 系統無誤後刪除) ---
     // {
-    //     text: '會計類別',
-    //     to: '/cms/book_keeping_account_types',
+    //     text: '會計紀錄',
+    //     to: '/cms/book_keeping_accounts',
     //     icon: <BackupTableIcon />,
     //     permissions: [{ resource: "Dashboard", action: "GET" }],
-    //     subMenu: [
-
-    //     ],
+    //     subMenu: [],
     // },
-    {
-        text: '會計紀錄',
-        to: '/cms/book_keeping_accounts',
-        icon: <BackupTableIcon />,
-        permissions: [{ resource: "Dashboard", action: "GET" }],
-        subMenu: [
+    // {
+    //     text: '自動入帳',
+    //     to: '/cms/book_keeping_period_expenses',
+    //     icon: <BackupTableIcon />,
+    //     permissions: [{ resource: "Dashboard", action: "GET" }],
+    //     subMenu: [],
+    // },
+    // {
+    //     text: '財務報表',
+    //     to: '/cms/financial_statement?tab=0',
+    //     icon: <FormatListNumberedIcon />,
+    //     permissions: [{ resource: "Dashboard", action: "GET" }],
+    //     subMenu: [],
+    // },
+    // -----------------------------------------------------
 
-        ],
+    // +++ 全新原生會計模組 (依據 Excel 重製) +++
+    {
+        text: '生存導航 (Dashboard)',
+        to: '/cms/accounting/dashboard',
+        icon: <DashboardIcon />,
+        permissions: [{ resource: "Dashboard", action: "GET" }],
+        subMenu: [],
     },
     {
-        text: '自動入帳',
-        to: '/cms/book_keeping_period_expenses',
+        text: '專案利潤 (MAIN)',
+        to: '/cms/accounting/main',
+        icon: <TableViewIcon />,
+        permissions: [{ resource: "Dashboard", action: "GET" }],
+        subMenu: [],
+    },
+    {
+        text: '應收帳款 (AR)',
+        to: '/cms/accounting/ar_list',
         icon: <BackupTableIcon />,
         permissions: [{ resource: "Dashboard", action: "GET" }],
-        subMenu: [
-
-        ],
+        subMenu: [],
     },
-// {
-//     text: '發票單',
-//     to: '/cms/invoice',
-//     icon: <BackupTableIcon />,
-//     permissions: [{ resource: "Dashboard", action: "GET" }],
-//     subMenu: [
-
-//     ],
-// },
-// {
-//     text: '支票簿',
-//     to: '/cms/cheque_book',
-//     icon: <LayersIcon />,
-//     permissions: [{ resource: "Dashboard", action: "GET" }],
-//     subMenu: [
-
-//     ],
-// },
-{
-    text: '財務報表',
-    to: '/cms/financial_statement?tab=0',
-    icon: <FormatListNumberedIcon />,
-    permissions: [{ resource: "Dashboard", action: "GET" }],
-    subMenu: [
-
-    ],
-}];
+    {
+        text: '供應商應付 (Payable)',
+        to: '/cms/accounting/payable_list',
+        icon: <FormatListNumberedIcon />,
+        permissions: [{ resource: "Dashboard", action: "GET" }],
+        subMenu: [],
+    },
+    {
+        text: '營運開銷 (Overhead)',
+        to: '/cms/accounting/overhead',
+        icon: <LayersIcon />,
+        permissions: [{ resource: "Dashboard", action: "GET" }],
+        subMenu: [],
+    }
+];
 
 export const accountMenu = [{
     text: '帳號',

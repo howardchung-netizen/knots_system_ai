@@ -294,4 +294,10 @@ export class Project extends BaseEntity implements Node {
   @Field(type => [TaskAssignedProject], { nullable: true })
   taskAssignedProject?: Promise<TaskAssignedProject[]>;
 
+  @Field(type => Float, { nullable: true, description: "總承包額扣除成本後的專案毛利 (由後端動態計算)" })
+  grossProfit?: number;
+
+  @Field(type => Float, { nullable: true, description: "專案毛利率百分比 (由後端動態計算)" })
+  profitMargin?: number;
+
 }

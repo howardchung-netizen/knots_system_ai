@@ -831,7 +831,14 @@ export const taskEditPopup = ({ data }, client, appToken, refetch, parents = [])
     else if (task.name !== self.value) taskUpdateUseMutation(['name'], [self.value]);
     
   }
-  const onTaskStatusChange = async (value) => { 
+  const onTaskStatusChange = async (value, oldValue, comboInstance) => { 
+    if (value === 'DONE') {
+      const isConfirmed = window.confirm("請問是否確認已完成？如果確認，將同時通知相關指派人員進行檢查。");
+      if (!isConfirmed) {
+        if (comboInstance) comboInstance.value = oldValue;
+        return;
+      }
+    }
     updateParentGridStore(['status'], [value])
     await client.mutate({
       mutation: gql`${taskSetStatusMutation} ${userErrorFragment}`,
@@ -847,10 +854,14 @@ export const taskEditPopup = ({ data }, client, appToken, refetch, parents = [])
         }
       }
     }).then(res => {
+      if (value === 'DONE') {
+        alert("已發送審核通知給相應指派人！");
+      }
     }).catch(err => {
       rollbackParentGridStore();
       alert("編輯任務失敗...請重新最試一次");
       console.log(err);
+      if (comboInstance) comboInstance.value = oldValue;
     })
   }
   const onAssignedToProject = async (value) => { 
@@ -1090,7 +1101,7 @@ export const taskEditPopup = ({ data }, client, appToken, refetch, parents = [])
                     listItemTpl: (e) => e.data.text.title,
                     displayValueRenderer: (e, i) => e?.value ? statusOptions[e.value].title : statusOptions[task.status].title,
                     listeners: {
-                      change({ value }) {onTaskStatusChange(value)}
+                      change({ value, oldValue }) {onTaskStatusChange(value, oldValue, this)}
                     }
                   }
                 ]

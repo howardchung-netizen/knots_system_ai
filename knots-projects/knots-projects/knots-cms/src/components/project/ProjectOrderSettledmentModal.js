@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, MenuItem, Typography } from '@mui/material';
+import { Grid, MenuItem, Typography, Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import EditFormModal from '../EditFormModal';
 import { useMutation } from '@apollo/client';
@@ -14,6 +14,20 @@ import Select from '../Select';
 import FilePicker, {File} from '../filePicker/FilePicker';
 import { toMoney } from '../../utils';
 import moment from 'moment';
+import { gql } from '@apollo/client';
+
+const OCR_RECEIPT = gql`
+    mutation ocrReceipt($data: AiOcrReceiptInput!) {
+      ocrReceipt(data: $data) {
+        success
+        amount
+        desc
+        date
+        supplier
+        error
+      }
+    }
+`;
 
 const REACT_APP_DEFAULT_COMPANY_ID = process.env.REACT_APP_DEFAULT_COMPANY_ID;
 
@@ -42,6 +56,7 @@ export default function ({ open, onCloseClick, onCompleted, ...props }) {
   const [formData, setFormData] = React.useState({...defaultData, ...props.data});
   const [inputError, setInputError] = React.useState({});
   const [formDataCreateMutate, createStatus] = useMutation(PROJECT_ORDER_CONFIRM_TRANSFER);
+  const [ocrMutate, { loading: ocrLoading }] = useMutation(OCR_RECEIPT);
   const mode = '員工報銷單入帳';
   const disabled = formData.settlement;
   const _onCloseClick= () => {
@@ -78,6 +93,10 @@ export default function ({ open, onCloseClick, onCompleted, ...props }) {
     if(formData.settlement == true) {
       alert("已核實的報銷單無法編輯!");
       return
+    }
+    if (!props.files || props.files.length === 0) {
+      enqueueSnackbar('硬性規定：結清前必須上傳憑證單據檔案！', { variant: 'error' });
+      return;
     }
     if (checkInputError()) {
       enqueueSnackbar('請檢查輸入', {
@@ -121,6 +140,53 @@ export default function ({ open, onCloseClick, onCompleted, ...props }) {
         return;
       }
     })
+  }
+
+  const handleOcrClick = async () => {
+    if (!props.files || props.files.length === 0) {
+      enqueueSnackbar("請先上傳憑證單據", { variant: "warning" });
+      return;
+    }
+    const targetFile = props.files[0];
+    if (targetFile.fileMimeType === 'application/pdf') {
+      alert("目前 OCR 僅支援檢測圖片檔案 (JPG/PNG/HEIC)");
+      return;
+    }
+    try {
+      let base64 = "";
+      if (targetFile.fileUrl) {
+         let urlToFetch = targetFile.fileUrl;
+         if (targetFile.fileMimeType === 'image/heic') {
+             enqueueSnackbar("HEIC 轉換可能需要較長時間", { variant: 'info' });
+         }
+         const res = await fetch(urlToFetch);
+         const blob = await res.blob();
+         base64 = await new Promise((resolve) => {
+           const reader = new FileReader();
+           reader.onloadend = () => resolve(reader.result);
+           reader.readAsDataURL(blob);
+         });
+      }
+
+      const { data } = await ocrMutate({ variables: { data: { imageUrl: base64 } } });
+      if (data.ocrReceipt.success) {
+         const { desc, date, supplier } = data.ocrReceipt;
+         let combinedDesc = "";
+         if (supplier && supplier !== 'null') combinedDesc += `[${supplier}] `;
+         if (desc && desc !== 'null') combinedDesc += desc;
+         
+         const payload = {};
+         if (combinedDesc.trim() !== "") payload.desc = combinedDesc;
+         if (date && date !== 'null' && moment(date).isValid()) payload.transactionDate = moment(date).format('YYYY-MM-DD');
+         
+         onFormDataChange(Object.keys(payload), Object.values(payload));
+         enqueueSnackbar('🤖 OCR 解析成功，已自動回填', { variant: 'success'});
+      } else {
+         alert("OCR 失敗: " + data.ocrReceipt.error);
+      }
+    } catch (e) {
+      enqueueSnackbar("OCR 服務異常: " + e.message, { variant: 'error' });
+    }
   }
 
   const CategoryAccountSelect = () => {
@@ -198,7 +264,7 @@ export default function ({ open, onCloseClick, onCompleted, ...props }) {
   return (
     <>
     {
-      (createStatus.loading) && <BackdropLoading/>
+      (createStatus.loading || ocrLoading) && <BackdropLoading/>
     }
       <EditFormModal
         open={open}
@@ -254,9 +320,16 @@ export default function ({ open, onCloseClick, onCompleted, ...props }) {
               title={""}
             >
               <Grid container spacing={2} padding={1}>
-                <Typography variant="body2" sx={{ marginTop: 1, fontWeight: 'bold', fontSize: 18 }}>
-                  入帳資料
-                </Typography>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                  <Typography variant="body2" sx={{ marginTop: 1, fontWeight: 'bold', fontSize: 18 }}>
+                    入帳資料
+                  </Typography>
+                  {!disabled && (
+                    <Button variant="outlined" color="secondary" onClick={handleOcrClick} sx={{ mt: 1 }}>
+                      🤖 啟動 OCR 解析收據
+                    </Button>
+                  )}
+                </div>
                 <Grid item xs={12}>
                   <CategoryAccountSelect />
                 </Grid>

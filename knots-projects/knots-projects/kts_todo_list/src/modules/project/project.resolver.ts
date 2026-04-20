@@ -10,6 +10,9 @@ import { ProjectConnection } from './connection/project.connection';
 import { ProjectPayload } from './payload/project.payload';
 import { ProjectUpdateInput } from './input/projectUpdate.input';
 import { ProjectCreateInput } from './input/projectCreate.input';
+import { getRepository } from 'typeorm';
+import { ProjectInvoice } from '../projectInvoice/projectInvoice.entity';
+import { ProjectOrder } from '../projectOrder/projectOrder.entity';
 
 export const RESOURCE_PROJECT = Project.name;
 
@@ -117,6 +120,57 @@ export class ProjectResolver extends ResourceResolver(Project) {
     }: ResolverContext,
   ) {
     return root.id ? taskAssignedProjectLoader.load(String(root.id)) : null;
+  }
+
+  @FieldResolver()
+  async grossProfit(@Root() root: Project) {
+    const invoiceRepo = getRepository(ProjectInvoice);
+    const orderRepo = getRepository(ProjectOrder);
+
+    // Sum total revenue (invoices)
+    const revenueResult = await invoiceRepo
+      .createQueryBuilder("invoice")
+      .select("SUM(invoice.totalAmount)", "totalIncome")
+      .where("invoice.project_id = :projectId", { projectId: root.id })
+      .andWhere("invoice.deleted = :deleted", { deleted: false })
+      .andWhere("invoice.status = :status", { status: true })
+      .getRawOne();
+      
+    // Sum total cost (orders/payables)
+    const costResult = await orderRepo
+      .createQueryBuilder("order")
+      .select("SUM(order.amount)", "totalCost")
+      .where("order.project_id = :projectId", { projectId: root.id })
+      .andWhere("order.deleted = :deleted", { deleted: false })
+      .andWhere("order.status = :status", { status: true })
+      .getRawOne();
+
+    const totalIncome = parseFloat(revenueResult?.totalIncome) || 0;
+    const totalCost = parseFloat(costResult?.totalCost) || 0;
+
+    return totalIncome - totalCost;
+  }
+
+  @FieldResolver()
+  async profitMargin(@Root() root: Project) {
+    const gp = await this.grossProfit(root);
+    
+    // We need income again to compute Margin
+    const invoiceRepo = getRepository(ProjectInvoice);
+    const revenueResult = await invoiceRepo
+      .createQueryBuilder("invoice")
+      .select("SUM(invoice.totalAmount)", "totalIncome")
+      .where("invoice.project_id = :projectId", { projectId: root.id })
+      .andWhere("invoice.deleted = :deleted", { deleted: false })
+      .andWhere("invoice.status = :status", { status: true })
+      .getRawOne();
+
+    const totalIncome = parseFloat(revenueResult?.totalIncome) || 0;
+
+    if (totalIncome === 0) return 0;
+    
+    // Margin percentage
+    return Math.round((gp / totalIncome) * 100 * 100) / 100; // 2 decimal places
   }
   
   @Authorized(`${RESOURCE_PROJECT}:${PermissionAction.GET}`)

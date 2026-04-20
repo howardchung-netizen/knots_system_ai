@@ -58,6 +58,14 @@ import TenderFormsList from './TenderFormsList';
 import FinancialStatementDetail from './FinancialStatementDetail';
 import ProfitSheet from './profitSheet/ProfitSheet';
 import ProjectOrder from './ProjectOrder';
+import AiChatWidget from '../components/AiChatWidget';
+
+// 新版原生會計系統 (Phase 2)
+import AccountingDashboard from './accounting/AccountingDashboard';
+import AccountingMain from './accounting/AccountingMain';
+import AccountingArList from './accounting/AccountingArList';
+import AccountingPayableList from './accounting/AccountingPayableList';
+import AccountingOverhead from './accounting/AccountingOverhead';
 
 const REACT_APP_TOKEN = process.env.REACT_APP_TOKEN;
 const REACT_APP_KQS_HTTPS_ENDPOINT = process.env.REACT_APP_KQS_HTTPS_ENDPOINT;
@@ -332,16 +340,25 @@ export default function MiniDrawer() {
               <Route path="book_keeping_period_expenses" element={<BookKeepingPeriodExpenseList />} />
               <Route path="financial_statement" element={<FinancialStatementDetail />} />
               <Route path="tenders" element={<TenderFormsList />} />
-              <Route path="Account" element={<Account />} />
+              <Route path="account" element={<Account />} />
               <Route path="/staff/:staffId" element={<UserDetail />} />
               <Route path="Settings" element={<AppSettingsTable />} />
               <Route path="Roles" element={<RolesTable />} />
               <Route path="Permissions" element={<PermissionTable />} />
+
+              {/* +++ 原生會計中心路徑 +++ */}
+              <Route path="accounting/dashboard" element={<AccountingDashboard />} />
+              <Route path="accounting/main" element={<AccountingMain />} />
+              <Route path="accounting/ar_list" element={<AccountingArList />} />
+              <Route path="accounting/payable_list" element={<AccountingPayableList />} />
+              <Route path="accounting/overhead" element={<AccountingOverhead />} />
+
               <Route path="*" element={<Page404 />} />
             </Routes>
           </Box>
         </div>
       </div>
+      <AiChatWidget />
     </div>
   );
 
