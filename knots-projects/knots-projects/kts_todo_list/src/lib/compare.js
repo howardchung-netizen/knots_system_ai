@@ -4,6 +4,10 @@ import { getRealFilePath } from './storage';
 import path from 'path';
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
+const os = require('os');
 
 export const comparePngs = async (actual, baseline, filename, folder, config, customPath, actualBuffer, baselineBuffer) => {
 	return new Promise(async (resolve, reject) => {
@@ -19,8 +23,38 @@ export const comparePngs = async (actual, baseline, filename, folder, config, cu
 		try {
 			const realActualPath = actualBuffer ? '' : customPath ? actual : await getRealFilePath(actual);
 			const realBaselinePath = baselineBuffer ? '' : customPath ? baseline : await getRealFilePath(baseline);
-			const actualPng = PNG.sync.read(actualBuffer ? Buffer.from(actualBuffer) : fs.readFileSync(realActualPath));
-			const baselinePng = PNG.sync.read(baselineBuffer ? Buffer.from(baselineBuffer) :fs.readFileSync(realBaselinePath));
+			
+			// == PHASE 4: Optical Alignment (OpenCV Homography) ==
+			let finalActualBuffer = actualBuffer ? Buffer.from(actualBuffer) : fs.readFileSync(realActualPath);
+			let finalBaselineBuffer = baselineBuffer ? Buffer.from(baselineBuffer) : fs.readFileSync(realBaselinePath);
+			
+			try {
+				const tmpDir = os.tmpdir();
+				const srcPath = path.join(tmpDir, `base_${Date.now()}.png`);
+				const tgtPath = path.join(tmpDir, `tgt_${Date.now()}.png`);
+				const outPath = path.join(tmpDir, `aligned_${Date.now()}.png`);
+				
+				fs.writeFileSync(srcPath, finalBaselineBuffer);
+				fs.writeFileSync(tgtPath, finalActualBuffer);
+				
+				const pythonScript = path.join(__dirname, 'align_image.py');
+				console.log(`[Alignment] Running Python OpenCV alignment...`);
+				await execPromise(`python "${pythonScript}" "${srcPath}" "${tgtPath}" "${outPath}"`);
+				console.log(`[Alignment] Python execution completed.`);
+				
+				if (fs.existsSync(outPath)) {
+					finalActualBuffer = fs.readFileSync(outPath);
+				}
+				
+				// Cleanup temp files safely
+				try { fs.unlinkSync(srcPath); fs.unlinkSync(tgtPath); fs.unlinkSync(outPath); } catch(e){}
+			} catch (alignErr) {
+				console.log(`[Alignment Error] Failed to optically align:`, alignErr.message);
+				// Soft fail: proceed with un-aligned original buffers
+			}
+			
+			const actualPng = PNG.sync.read(finalActualBuffer);
+			const baselinePng = PNG.sync.read(finalBaselineBuffer);
 			const { width, height } = actualPng;
 			const diffPng = new PNG({ width, height });
 

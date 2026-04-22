@@ -29,7 +29,7 @@
    * 原生僅支援單本筆記。現已透過 `aiAssistant.service.ts` 改建為「意圖路由 (Intent Router)」。
    * AI 將判讀問題，並動態分發 `Promise.all` 請求給裝載「食環署(FEHD)」、「屋宇署(BD)」與「消防處(FSD)」的無頭瀏覽器，進行知識跨領域聯合查詢。
 2. **原創會計模組重建**：不再依賴 Excel 或 Google Sheets 同步，把 Dashboard、MAIN 毛利表、AR/AP 等圖表化作我們內建的高效選單。
-3. ### Phase 3: 防呆驗證流水線與 OCR (Pipeline Validation & OCR) (進行中)
+3. ### Phase 3: 防呆驗證流水線與 OCR (Pipeline Validation & OCR) (已完成)
 *(2026-04-20 Update)*
 *   **專案表單防呆**：於 `ProjectFormModal.js` 新增新建專案時自動填入預設屬性(第一順位狀態、本年度、當天日期)，並硬性鎖定必選客戶(`clientId`)。
 *   **ToDoList 狀態攔截**：在使用 Bryntum Gantt/Grid 更新任務至 `DONE` 前覆核使用者操作，並發送系統通報。
@@ -37,6 +37,13 @@
     *   在結算彈窗 (`OrderFormSettledmentModal.js` 及 `ProjectOrderSettledmentModal.js`) 實施硬性卡點：若未夾帶憑證，禁止推進結清流程。
     *   建立後端 `AiAssistantService.ocrReceipt` GraphQL 突變接口。
     *   前端透過 【🤖 啟動 OCR 解析單據】 按鍵，將圖片 base64 送往 Gemini 1.5 flash，並根據回傳物件 `amount`, `desc`, `date`, `supplier` 自動覆蓋至入帳欄位。
+*   **NotebookLM 多重路由大腦**：實裝系統意圖分析，動態跨域同時搜尋 `食環署`, `屋宇署` 與 `消防處` 法規庫。
+
+### Phase 4: 光學對位與智能比對 (Blueprint Alignment) (已完成)
+*(2026-04-22 Update)*
+*   **OpenCV 電腦視覺核心**：於後端植入 `align_image.py`，使用 ORB 特徵演算法尋找改版圖紙與原圖紙相同的交叉角點。
+*   **單應性補償 (Homography Compensation)**：改寫 `compare.js` 中的比對邏輯，在執行絕對座標的 `pixelmatch` 之前，先以 Python 引擎強制平移/旋轉「測量基準圖」，使得測試版與來源圖精準像素重疊。
+*   **解決痛點**：澈底排除過往因印表或轉存時小於 1% 的偏差，導致比對引擎「錯把馮京當馬涼」，將整面圖紙標滿差異紅圈的歷史遺留問題。
 4. **擴充 RAG 技術**：接入 Google Drive API 將其餘文件轉成向量存儲庫。
 
 ### 🛑 需要老闆支援的事項 (Blocked / Action Required)
