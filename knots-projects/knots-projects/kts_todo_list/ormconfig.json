@@ -4,16 +4,16 @@
     "port":3306,
     "username":"root",
     "password":"Cow92165965",
-    "database":"KQS",
+    "database":"kqs",
     "extra": {
     "connectionLimit": 10,
     "timezone": "+08:00"
     },
     "timezone": "+08:00",
     "logging": true,
-    "entities":["modules/**/*.entity.js"],
-    "subscribers": ["modules/**/*.subscriber.js"],
-    "migragtions": ["db/migrations/*.js"],
+    "entities":["src/modules/**/*.entity.ts"],
+    "subscribers": ["src/modules/**/*.subscriber.ts"],
+    "migrations": ["src/db/migrations/*.ts"],
     "migrationsTableName": "migration",
     "cli": {
         "migrationsDir": "src/db/migrations"

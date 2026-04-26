@@ -91,7 +91,7 @@
     "type-graphql": "^0.17.6",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.41",
-    "typeorm-adapter": "^1.4.2",
+    "typeorm-adapter": "1.4.2",
     "typeorm-typedi-extensions": "^0.2.3",
     "uuidv4": "^6.2.13",
     "winston": "^3.3.3",

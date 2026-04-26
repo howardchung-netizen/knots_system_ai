@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { getRepository } from "typeorm";
-import { ProjectInvoice } from "../../projectInvoice/projectInvoice.entity";
-import { ProjectOrder } from "../../projectOrder/projectOrder.entity";
+import { ProjectInvoice } from "../projectInvoice/projectInvoice.entity";
+import { ProjectOrder } from "../projectOrder/projectOrder.entity";
 import { AccountingDashboardPayload } from "./payload/accountingDashboard.payload";
 import { OverheadSummaryCategoryPayload } from "./payload/overheadSummary.payload";
 

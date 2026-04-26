@@ -13,7 +13,7 @@ module.exports = function(app) {
   app.use(
     '/todo-graphql',
     createProxyMiddleware({
-      target: 'https://todo.knotsltd.com',
+      target: 'http://localhost:8004',
       changeOrigin: true,
       pathRewrite: { '^/todo-graphql': '/graphql' },
       ws: true,
@@ -23,7 +23,7 @@ module.exports = function(app) {
   app.use(
     '/todo-api',
     createProxyMiddleware({
-      target: 'https://todo.knotsltd.com',
+      target: 'http://localhost:8004',
       changeOrigin: true,
       pathRewrite: { '^/todo-api': '' },
       secure: false

@@ -71,3 +71,31 @@
 
 ### 2. 全新：原生財務管理 (Accounting Module)
 *(待實作完畢後會在此記錄完整的結帳與請款流程說明)*
+
+第一步：啟動本地資料庫 (最重要！)
+請打開您電腦上的 XAMPP（或是 Docker），點擊啟動 MySQL。 (如果沒有啟動 MySQL，後端程式一跑就會立刻崩潰)
+
+第二步：啟動後端 (kts_todo_list)
+請打開一個新的終端機 (PowerShell)，然後依序複製貼上並執行以下兩行指令（請整行複製，不要複製到多餘的符號）：
+
+powershell
+cd "C:\knots system\knots-projects\knots-projects\kts_todo_list"
+powershell
+npm run start
+(執行後，請等它顯示連線成功)
+
+第三步：啟動前端 (knots-cms)
+請再打開另一個新的終端機（讓後端的終端機繼續放著跑），然後依序複製貼上以下兩行指令：
+
+powershell
+cd "C:\knots system\knots-projects\knots-projects\knots-cms"
+powershell
+npm run start
+等瀏覽器自動跳出 http://localhost:3000 後，您就可以使用 howardchung@knotsltd.com 登入。
+
+還有！剛剛出現了另一個錯誤 EntityMetadataNotFoundError: No metadata for "Task" was found.。 這個錯的根本原因是：您目前的環境其實是本地開發版，但您的 .env 設定檔裡面卻寫著 NODE_ENV=production (正式區環境)，導致後端啟動時，它一直想去讀取正式區專用的 dist/ 編譯資料夾，而不是讀取本地的 src/ 原始碼資料夾，所以它一個資料庫模型 (Entity) 都找不到！
+
+為了讓您能完美在本地測試，我剛剛順手幫您做了兩件事：
+
+將後端的 .env 環境變數改為 NODE_ENV=development。
+修正了 ormconfig.json 裡面抓取 Entity 的路徑，讓它能正確對應到本地的 src/**/*.ts。
