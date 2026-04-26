@@ -1,0 +1,118 @@
+import { Mixin } from "../../ChronoGraph/class/BetterMixin.js";
+import { Entity } from "../../ChronoGraph/replica/Entity.js";
+import Model from "../../Core/data/Model.js";
+import ObjectHelper from "../../Core/helper/ObjectHelper.js";
+import { ProposedOrPrevious } from "../../ChronoGraph/chrono/Effect.js";
+/**
+ * This is a base mixin, which mixes together the ChronoGraph's [Entity](https://bryntum.github.io/chronograph/docs/modules/_src_replica_entity_.html)
+ * and the Bryntum Core [Model](https://bryntum.com/docs/grid/api/Core/data/Model)
+ *
+ * It is used as a very base mixin for all other entities in the project.
+ */
+export class ChronoModelMixin extends Mixin([Entity, Model], (base) => {
+    const superProto = base.prototype;
+    class ChronoModelMixin extends base {
+        // This is a marker for Models which have the Engine API available.
+        get isEntity() {
+            return true;
+        }
+        construct(config, ...args) {
+            // this is to force the fields creation, because we need all fields to be created
+            // for the `this.getFieldDefinition()` to return correct result
+            // @ts-ignore
+            this.constructor.exposeProperties();
+            // Cache original data before we recreate the incoming data here.
+            // @ts-ignore
+            this.originalData = (config = config || {});
+            // Populate record with all data, it will sort the configs out.
+            // By doing this first, we can feed engine the converted values right away. Needed to satisfy tests that
+            // use standalone stores, otherwise they will be getting the unconverted values since there is no graph.
+            superProto.construct.call(this, config, ...args);
+        }
+        /**
+         * Calculation function that simply returns current ([[ProposedOrPrevious|proposed or previous]]) value of
+         * an identifier.
+         */
+        *userProvidedValue() {
+            return yield ProposedOrPrevious;
+        }
+        copy(newId = null, deep = null) {
+            const copy = superProto.copy.call(this, newId, deep);
+            // If deep is everything but object - use default behavior, which is to invoke accessors
+            // If deep is an object, check if it has certain field disabled
+            if ((ObjectHelper.isObject(deep) && !deep.skipFieldIdentifiers) || !ObjectHelper.isObject(deep)) {
+                this.forEachFieldIdentifier((identifier, fieldName) => {
+                    copy[fieldName] = this[fieldName];
+                });
+            }
+            return copy;
+        }
+        applyValue(useProp, key, value, skipAccessors, field) {
+            const chronoField = this.$entity.getField(key);
+            if (chronoField)
+                useProp = true;
+            if (skipAccessors) {
+                useProp = false;
+            }
+            superProto.applyValue.call(this, useProp, key, value, skipAccessors, field);
+        }
+        afterChange(toSet, wasSet, silent, fromRelationUpdate, skipAccessors) {
+            const store = this.firstStore;
+            // When model.set({...}) is called and chrono field is modified, afterChange will be invoked twice:
+            // 1. call will forward value to the chrono, leaving model.data intact
+            // 2. value was changed, so model.afterChange is called too, triggering `update` event on store
+            // 3. autoCommit is scheduled
+            // 4. autoCommit finalizes, calling endBatch
+            // 5. endBatch calls `set` again, passing argument `skipAccessors = true`, which means data will be set to
+            // the `model.data` now
+            // 6. since value differs in chrono and in model.data, `afterChange` will be called once again
+            // Naturally this leads to two identical events being fired for this call:
+            // `dependency.set('type', 0)
+            //
+            // Idea of the fix is to mute events for the first call IF chrono field is in the `wasSet` object
+            // Covered by DependencyEdit.t.js
+            if (!skipAccessors && !(store.syncDataOnLoad && store.isLoadingData) && Object.keys(wasSet).some(key => this.$entity.getField(key))) {
+                // @ts-ignore
+                superProto.afterChange.call(this, toSet, wasSet, true, fromRelationUpdate, skipAccessors);
+            }
+            else {
+                // @ts-ignore
+                superProto.afterChange.apply(this, arguments);
+            }
+        }
+        get isInActiveTransaction() {
+            // Might not have joined graph when using delayed calculation
+            const activeTransaction = this.graph?.activeTransaction;
+            return Boolean(activeTransaction?.getLatestStableEntryFor(this.$$));
+        }
+        get data() {
+            return this._data;
+        }
+        set data(data) {
+            this._data = data;
+            // Have to iterate over defined fields and not keys in supplied data, in case nested mappings are used
+            const { fields } = this;
+            for (let i = 0; i < fields.length; i++) {
+                const { name, dataSource, complexMapping } = fields[i];
+                const chronoField = this.$entity.getField(name);
+                if (chronoField) {
+                    const value = complexMapping
+                        ? ObjectHelper.getPath(data, dataSource)
+                        : data[dataSource];
+                    // Avoid hitting setter for fields that have no value in supplied data, or are undefined on initial set
+                    if ((complexMapping || dataSource in data) && (this.generation != null || value !== undefined)) {
+                        // Use the predefined name for engine (name, startDate)
+                        this[name] = value;
+                    }
+                }
+            }
+        }
+        get $entityName() {
+            const className = this.constructor.name || this.$entity.name;
+            const id = this.id;
+            return `${className}${id != null ? '-' + String(id) : ''}`;
+        }
+    }
+    return ChronoModelMixin;
+}) {
+}

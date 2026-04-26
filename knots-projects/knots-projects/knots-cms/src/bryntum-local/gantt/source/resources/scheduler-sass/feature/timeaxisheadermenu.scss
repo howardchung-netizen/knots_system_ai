@@ -1,0 +1,9 @@
+.b-sch-timeaxis-menu-daterange-popup {
+    width : 21em;
+
+    .b-left-nav-btn,
+    .b-right-nav-btn{
+        // Keep nav buttons square
+        max-width: 1em;
+    }
+}

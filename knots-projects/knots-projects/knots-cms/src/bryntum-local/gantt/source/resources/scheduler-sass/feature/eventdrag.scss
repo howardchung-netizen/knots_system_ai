@@ -1,0 +1,52 @@
+@import '../variables';
+
+.b-schedulerbase.b-dragging-event {
+    @include user-select-none();
+}
+
+.b-sch-event-wrap{
+    &.b-aborting,
+    &.b-drag-unified-animation {
+        transition : $event-default-transition, transform 0.2s, left 0.2s, top 0.2s;
+    }
+
+    &.b-dragging {
+        z-index        : 100;
+
+        &.b-drag-main {
+            z-index : 101;
+        }
+
+        .b-sch-event {
+            outline    : none !important;
+
+            &.b-sch-style-plain &,
+            &.b-sch-style-border &,
+            &.b-sch-style-colored & {
+                box-shadow : $float-box-shadow;
+            }
+        }
+    }
+}
+
+// Need higher specificity than the .b-floating's pointer-events:all to override
+.b-float-root > .b-tooltip.b-eventdrag-tooltip {
+    // During drag, it must be impossible for the mouse to be over the tip.
+    pointer-events : none;
+}
+
+.b-sch-tip-message {
+    margin-top : 0.5em;
+
+    .b-sch-tip-invalid & {
+        color : $event-color-red;
+    }
+
+    .b-icon:first-child {
+        margin-right : 0.4em;
+    }
+
+    &:empty {
+        display : none;
+    }
+}

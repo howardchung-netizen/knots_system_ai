@@ -1,0 +1,8 @@
+@import "../../variables";
+
+.b-generated-parent.b-readonly {
+    // Override the default paler color of read-only cells
+    .b-grid-cell {
+        color : $grid-cell-color;
+    }
+}

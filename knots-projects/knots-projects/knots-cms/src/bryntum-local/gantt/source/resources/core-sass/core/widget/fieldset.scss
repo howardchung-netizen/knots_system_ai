@@ -1,0 +1,63 @@
+@import '../../variables.scss';
+
+.b-fieldset.b-has-label {
+    align-items : center;
+
+    &.b-label-before {
+        > .b-panel-body-wrap {
+            flex : 1 1 100%;
+        }
+    }
+
+    > label {
+        flex-shrink : 0;
+    }
+}
+
+.b-fieldset-header {
+    background-color : transparent;
+    padding          : 0.5em;
+    color            : $field-color;
+
+    .b-header-title {
+        font-weight : 600;
+    }
+}
+
+fieldset.b-fieldset-content {
+    // The default style applied to a fieldset element need to be tamed:
+    border              : none;
+    background-color    : transparent;
+
+    margin-inline-start : 0;
+    margin-inline-end   : 0;
+
+    overflow            : unset; // override panel's choice here
+    padding-block-end   : 0;
+
+    .b-panel-has-header > .b-radiogroup-body-wrap > & {
+        padding-block-start  : $panel-content-padding;
+
+        // The padding-inline-start property is defined in the specification as taking the same values as the padding-top
+        // property. However, the physical property it maps to depends on the values set for writing-mode, direction, and
+        // text-orientation. Therefore, it could map to padding-top, padding-right, or padding-left
+        padding-inline-start : $panel-content-padding;
+        padding-inline-end   : $panel-content-padding;
+    }
+
+    .b-fieldset:not(.b-panel-has-header) > .b-radiogroup-body-wrap > & {
+        padding : 0;
+    }
+
+    &.b-inline {
+        > .b-field:not(:first-child) {
+            margin-inline-start : 1em;
+        }
+    }
+
+    > legend.b-fieldset-legend {
+        position : absolute;
+        top      : -10000px;
+        clip     : rect(0, 0, 0, 0);
+    }
+}

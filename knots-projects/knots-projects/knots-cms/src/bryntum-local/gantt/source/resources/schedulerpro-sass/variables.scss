@@ -1,0 +1,80 @@
+@import '../scheduler-sass/variables';
+
+// region ResourceHistogram
+
+$resourcehistogram-bar-color                      : scale_color($event-color-green, $lightness : 70%) !default;
+$resourcehistogram-bar-hover-color                : scale_color($event-color-green, $lightness : 60%) !default;
+$resourcehistogram-overallocated-bar-color        : scale_color($event-color-red, $lightness : 40%) !default;
+$resourcehistogram-overallocated-bar-hover-color  : scale_color($event-color-red, $lightness : 30%) !default;
+$resourcehistogram-underallocated-bar-color       : scale_color($event-color-green, $lightness : 40%) !default;
+$resourcehistogram-underallocated-bar-hover-color : scale_color($event-color-green, $lightness : 30%) !default;
+$resourcehistogram-bar-legend-font-size           : $histogram-bar-legend-font-size !default;
+
+// endregion
+
+// region ResourceUtilization
+
+$resourceutilization-bar-legend-font-size           : 80% !default;
+$resourceutilization-bar-legend-text-fill           : $grid-cell-color !default;
+$resourceutilization-bar-color                      : scale_color($event-color-green, $lightness : 70%) !default;
+$resourceutilization-bar-hover-color                : scale_color($event-color-green, $lightness : 60%) !default;
+$resourceutilization-overallocated-bar-color        : scale_color($event-color-red, $lightness : 40%) !default;
+$resourceutilization-overallocated-bar-hover-color  : scale_color($event-color-red, $lightness : 30%) !default;
+$resourceutilization-underallocated-bar-color       : scale_color($event-color-green, $lightness : 40%) !default;
+$resourceutilization-underallocated-bar-hover-color : scale_color($event-color-green, $lightness : 30%) !default;
+
+$resourceutilization-resource-bar-legend-font-size           : 80% !default;
+$resourceutilization-resource-bar-legend-text-fill           : $resourceutilization-bar-legend-text-fill !default;
+$resourceutilization-resource-bar-color                      : $resourceutilization-bar-color !default;
+$resourceutilization-resource-bar-hover-color                : $resourceutilization-bar-hover-color !default;
+$resourceutilization-resource-overallocated-bar-color        : $resourceutilization-overallocated-bar-color !default;
+$resourceutilization-resource-overallocated-bar-hover-color  : $resourceutilization-overallocated-bar-hover-color !default;
+$resourceutilization-resource-underallocated-bar-color       : $resourceutilization-underallocated-bar-color !default;
+$resourceutilization-resource-underallocated-bar-hover-color : $resourceutilization-underallocated-bar-hover-color !default;
+
+$resourceutilization-assignment-bar-legend-font-size           : 80% !default;
+$resourceutilization-assignment-bar-legend-text-fill           : $resourceutilization-bar-legend-text-fill !default;
+$resourceutilization-assignment-bar-color                      : transparent !default;
+$resourceutilization-assignment-bar-hover-color                : transparent !default;
+$resourceutilization-assignment-overallocated-bar-color        : transparent !default;
+$resourceutilization-assignment-overallocated-bar-hover-color  : transparent !default;
+$resourceutilization-assignment-underallocated-bar-color       : transparent !default;
+$resourceutilization-assignment-underallocated-bar-hover-color : transparent !default;
+
+// endregion
+
+// region PercentBar
+
+$percent-bar-background-color                     : rgba(0, 0, 0, .15) !default;
+$percent-bar-hover-background-color               : null !default;
+$percent-bar-selected-background-color            : rgba(0, 0, 0, .2) !default;
+$percent-bar-parent-background-color              : $percent-bar-background-color !default;
+$percent-bar-parent-hover-background-color        : null !default;
+
+// endregion
+
+// region Timeline
+
+$schedulerpro-parent-background-color : scale_color($blue, $lightness : 40%) !default;
+$schedulerpro-milestone-background-color : $schedulerpro-parent-background-color !default;
+
+$schedulerpro-timeline-task-border-radius : null !default;
+$schedulerpro-timeline-background-color : $panel-background-color !default;
+$schedulerpro-timeline-border-color : $grid-header-border-color !default;
+$schedulerpro-timeline-label-color : darken($grid-header-border-color, 10%) !default;
+$schedulerpro-timeline-label-font-weight : null !default;
+
+// endregion
+
+// region timespan highlight
+$schedulerpro-highlighted-range-background : #3183fe12 !default;
+$schedulerpro-highlighted-range-border-color: #3183fe33 !default;
+$schedulerpro-highlighted-range-color: #3183fe88 !default;
+$schedulerpro-unavailable-time-background : #c8c8c830 !default;
+// endregion
+
+// region calendar highlight
+$schedulerpro-highlighted-calendar-color : #3183fe88 !default;
+$schedulerpro-highlighted-calendar-background-color : #3183fe12 !default;
+$schedulerpro-highlighted-calendar-border-color : #3183fe33 !default;
+// endregion

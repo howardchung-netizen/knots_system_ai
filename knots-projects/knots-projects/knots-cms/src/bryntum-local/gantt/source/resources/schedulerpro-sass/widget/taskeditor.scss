@@ -1,0 +1,55 @@
+@import '../variables';
+
+.b-popup.b-schedulerpro-taskeditor {
+    @extend .b-taskeditor;
+
+    .b-taskeditorbase-content {
+        padding : 1em;
+    }
+
+    // Without this Safari manages to put border 1px below buttons, because of some rounding issue it seems
+    .b-theme-stockholm .b-safari & .b-tabpanel-tab {
+        height : 3em;
+    }
+
+    .b-tabpanel-tab-title.b-invalid {
+        white-space : nowrap;
+
+        .b-icon {
+            color        : $red;
+            display      : inline-block;
+            margin-right : .5em;
+        }
+    }
+
+    .b-tabpanel-item {
+        align-content : flex-start;
+    }
+
+    > .b-panel-body-wrap > .b-bottom-toolbar {
+        button {
+            flex         : none;
+            min-width    : 9em;
+            margin-right : .5em;
+            min-height   : 2.5em;
+
+            &:last-child {
+                margin-right : 0;
+            }
+        }
+    }
+}
+
+// Compact toolbar displayed below grids in the task editor
+.b-schedulerpro-taskeditor .b-toolbar.b-compact-bbar {
+    font-size  : .8em;
+    min-height : 2.5em;
+
+    > .b-toolbar-content {
+        padding : 0;
+    }
+
+    .b-button {
+        border : none;
+    }
+}

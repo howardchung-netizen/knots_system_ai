@@ -1,0 +1,16 @@
+.b-fit-container {
+    display     : flex;
+    flex-flow   : row nowrap;
+    align-items : stretch;
+    overflow    : hidden;
+    position    : relative;
+
+    > .b-fit-item {
+        flex       : 1 0 auto;
+        margin     : 0;
+        max-width  : 100%;
+
+        // In a fit layout, fitting is more !important than a widget's own CSS
+        align-self : stretch!important;
+    }
+}

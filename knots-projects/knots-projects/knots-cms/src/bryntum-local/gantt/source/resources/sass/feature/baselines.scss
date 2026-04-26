@@ -1,0 +1,62 @@
+@import '../variables';
+
+// Baseline wraps are positioned on same level as task wraps
+.b-baseline-wrap {
+    display        : flex;
+    flex-direction : column;
+    position       : absolute;
+    transition     : none;
+    z-index        : $event-zindex;
+    // This puts them below the task wrap, keeping calculations simple
+    top            : 1 - $gantt-baseline-wrap-size;
+    height         : $gantt-baseline-wrap-size;
+}
+
+.b-task-baseline {
+    // Baselines are shifted to before/after the task
+    position         : relative;
+
+    // Baselines are hidden by flexing down to zero height by default
+    flex             : $gantt-baseline-flex;
+    border           : $gantt-baseline-border-width solid $gantt-baseline-border-color;
+    transition       : flex $gantt-baseline-animate-duration, border-width $gantt-baseline-animate-duration, font-size $gantt-baseline-animate-duration;
+    background-color : $gantt-baseline-background-color;
+    margin-top       : $gantt-baseline-margin-top;
+    pointer-events   : all;
+
+    .b-animating & {
+        transition : flex $gantt-baseline-animate-duration, border-width $gantt-baseline-animate-duration, font-size $gantt-baseline-animate-duration, width $gantt-baseline-animate-duration, left $gantt-baseline-animate-duration;
+    }
+}
+
+
+// Shrink tasks when using baselines, to fit baselines below
+.b-baselines .b-gantt-task-wrap.b-has-baselines {
+    // Height reduced with size of baseline wrap
+    height : 1 - $gantt-baseline-wrap-size;
+
+    // Also shrink milestone icons
+    &.b-milestone-wrap {
+        font-size  : 60%;
+        transition : flex $gantt-baseline-animate-duration, font-size $gantt-baseline-animate-duration;
+    }
+}
+
+.b-task-baseline-milestone {
+    border    : none;
+    font-size : 30%;
+
+    // Reused from normal milestone rendering
+    &::before {
+        position         : absolute;
+        top              : 50%;
+        left             : 50%;
+        content          : ' ';
+        height           : 0.707107em;
+        width            : 0.707107em;
+        transform-origin : 50% 50%;
+        transform        : translate(-50%, -50%) rotate(45deg);
+        background-image : inherit;
+        background-color : inherit;
+    }
+}

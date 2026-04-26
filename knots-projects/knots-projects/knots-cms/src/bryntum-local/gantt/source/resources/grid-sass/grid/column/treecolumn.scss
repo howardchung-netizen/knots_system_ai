@@ -1,0 +1,126 @@
+@import "../../variables";
+
+.b-tree-expander {
+    position        : relative;
+    top             : 1px;
+    margin          : 0 .55em;
+    cursor          : pointer;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+}
+
+.b-loading-children .b-tree-expander .b-icon:before {
+    content   : "\f110";
+    animation : spin 2s infinite linear;
+}
+
+.b-grid-cell.b-tree-cell {
+    align-items : stretch;
+}
+
+.b-tree-leaf-cell .b-tree-cell-inner:before {
+    font-family       : $icon-font;
+    font-weight       : $icon-font-weight;
+    color             : $tree-expander-color;
+    margin-inline-end : .6em;
+    width             : $tree-icon-width;
+    min-width         : $tree-icon-width;
+    text-align        : center;
+}
+
+.b-tree-icon,
+.b-icon-tree-leaf,
+.b-icon-tree-folder,
+.b-icon-tree-folder-open,
+.b-icon-tree-expand,
+.b-icon-tree-collapse {
+    color      : $tree-expander-color;
+    width      : $tree-icon-width;
+    min-width  : $tree-icon-width;
+    text-align : center;
+}
+
+.b-tree-icon,
+.b-icon-tree-leaf,
+.b-icon-tree-folder,
+.b-icon-tree-folder-open {
+    margin-inline-end : .6em;
+}
+
+.b-icon-tree-leaf:before {
+    font-size      : .3em;
+    vertical-align : middle;
+}
+
+.b-icon-tree-folder:before,
+.b-icon-tree-folder-open:before {
+    margin-inline-start : .1em;
+}
+
+.b-icon-tree-expand,
+.b-icon-tree-collapse {
+    &.b-empty-parent {
+        visibility : hidden;
+    }
+
+    &:before {
+        font-size : 1.2em;
+    }
+}
+
+.b-tree-cell-inner {
+    padding     : 0.5em 0;
+
+    display     : flex;
+    align-items : center;
+    flex-shrink : 0;
+    flex-grow   : 1;
+}
+
+a.b-tree-cell-inner {
+    text-decoration : none;
+
+    &:hover {
+        .b-tree-cell-value {
+            text-decoration : underline;
+        }
+    }
+}
+
+.b-tree-parent-cell,
+.b-tree-leaf-cell {
+    padding-inline-start : 10px;
+}
+
+.b-tree-cell.b-tree-parent-cell {
+    font-weight : $tree-parent-font-weight;
+    color       : $tree-parent-color;
+}
+
+.b-tree-cell-value {
+    flex           : 1;
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+}
+
+.b-touch {
+    .b-tree-expander {
+        width : 1.1em;
+    }
+
+    .b-icon-tree-expand:before,
+    .b-icon-tree-collapse:before {
+        font-size : 1.8em;
+    }
+
+    .b-icon-tree-leaf:before {
+        font-size : .6em;
+    }
+
+    .b-tree-icon,
+    .b-tree-leaf-cell:not(.b-tree-parent-cell):before {
+        font-size : 1.2em;
+    }
+}

@@ -1,0 +1,12 @@
+@import '../../variables';
+
+.b-exportdialog.b-popup .b-bottom-toolbar {
+    > button {
+        flex              : 1;
+        margin-inline-end : .5em;
+
+        &:last-child {
+            margin-inline-end : 0;
+        }
+    }
+}

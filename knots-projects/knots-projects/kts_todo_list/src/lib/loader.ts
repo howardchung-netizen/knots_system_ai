@@ -35,7 +35,7 @@ import { projectItemChildLoader } from "../modules/projectItem/projectItem.loade
 import { contactFileByIdLoader } from "../modules/contactFile/contactFile.loader";
 import { projectOrderFileLoader } from "../modules/projectOrderFile/projectOrderFile.loader";
 import { claimFormFileLoader } from "../modules/claimFormFile/claimFormFile.loader";
-import { quotationFileByIdLoader } from "../modules/quotationFile /quotationFile.loader";
+import { quotationFileByIdLoader } from "../modules/quotationFile_/quotationFile.loader";
 
 export const createLoaders = () => ({
   userLoader: userLoader(),

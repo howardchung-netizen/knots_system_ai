@@ -1,0 +1,30 @@
+@import '../variables';
+
+.b-assignmentpicker {
+
+    //border: 1px solid $widget-border-color;
+
+    .b-panel-content {
+        padding          : 0;
+        background-color : $field-background-color;
+    }
+
+    .b-assignmentgrid {
+        flex : 1 1 auto;
+    }
+
+    .b-bottom-toolbar {
+        .b-toolbar-content {
+            justify-content : flex-end;
+
+            > button {
+                min-width    : 10em;
+                margin-right : .5em;
+
+                &.b-last-visible-child {
+                    margin-right : 0;
+                }
+            }
+        }
+    }
+}

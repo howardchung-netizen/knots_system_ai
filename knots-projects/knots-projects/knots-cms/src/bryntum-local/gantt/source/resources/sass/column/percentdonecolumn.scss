@@ -1,0 +1,46 @@
+@import '../variables';
+
+// Percent done column
+.b-percentdone-circle {
+
+    --gantt-percentdone-angle : 0;
+
+    display                   : flex;
+    align-items               : center;
+    justify-content           : center;
+
+    max-height                : 3em;
+    max-width                 : 3em;
+
+    border-radius             : 50%;
+    background-color          : $percentcircle-background-color;
+    background-image          : conic-gradient($percentcircle-done-color 0 var(--gantt-percentdone-angle), transparent var(--gantt-percentdone-angle) 1turn);
+
+    // Override gradient for empty / full circles to eliminate visual artifacts
+    &.b-full,
+    &.b-empty {
+        background-image : none;
+    }
+
+    &.b-full {
+        background-color : $percentcircle-done-color;
+    }
+
+    // Center label + fill
+    &::after {
+        content         : attr(data-value);
+
+        display         : flex;
+        align-items     : center;
+        justify-content : center;
+
+        width           : $percentcircle-thickness;
+        height          : $percentcircle-thickness;
+
+        border-radius   : 50%;
+        background      : $percentcircle-label-background;
+        font-size       : $percentcircle-label-font-size;
+        color           : $percentcircle-label-color;
+    }
+}
+

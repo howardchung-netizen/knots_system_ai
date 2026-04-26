@@ -1,0 +1,120 @@
+@import '../variables';
+
+.b-resourceutilization {
+
+    .b-resourceutilization-cell {
+        padding            : 0;
+        border-inline-end-width : 0;
+    }
+
+}
+
+.b-resourceutilization-histogram {
+
+    padding          : 0;
+    background-color : transparent;
+
+    svg g text.b-bar-legend {
+        font-size          : $resourceutilization-bar-legend-font-size;
+        fill               : $resourceutilization-bar-legend-text-fill;
+        writing-mode       : lr;
+        alignment-baseline : middle;
+        text-anchor        : middle;
+        // prevent tooltip from reacting to moving over the text node
+        pointer-events     : none;
+    }
+
+    rect {
+        fill : $resourceutilization-bar-color;
+
+        &.b-underallocated {
+            fill : $resourceutilization-underallocated-bar-color;
+
+            &:hover {
+                fill : $resourceutilization-underallocated-bar-hover-color;
+            }
+        }
+
+        &.b-overallocated {
+            fill : $resourceutilization-overallocated-bar-color;
+
+            &:hover {
+                fill : $resourceutilization-overallocated-bar-hover-color;
+            }
+        }
+
+        &:hover {
+            fill : $resourceutilization-bar-hover-color;
+        }
+    }
+}
+
+.b-resource-row {
+
+    .b-resourceutilization-histogram {
+
+        svg g text.b-bar-legend {
+            font-size : $resourceutilization-resource-bar-legend-font-size;
+            fill      : $resourceutilization-resource-bar-legend-text-fill;
+        }
+
+        rect {
+            fill : $resourceutilization-resource-bar-color;
+
+            &.b-underallocated {
+                fill : $resourceutilization-resource-underallocated-bar-color;
+
+                &:hover {
+                    fill : $resourceutilization-resource-underallocated-bar-hover-color;
+                }
+            }
+
+            &.b-overallocated {
+                fill : $resourceutilization-resource-overallocated-bar-color;
+
+                &:hover {
+                    fill : $resourceutilization-resource-overallocated-bar-hover-color;
+                }
+            }
+
+            &:hover {
+                fill : $resourceutilization-resource-bar-hover-color;
+            }
+        }
+    }
+}
+
+.b-assignment-row {
+
+    .b-resourceutilization-histogram {
+
+        svg g text.b-bar-legend {
+            font-size : $resourceutilization-assignment-bar-legend-font-size;
+            fill      : $resourceutilization-assignment-bar-legend-text-fill;
+        }
+
+        rect {
+            fill : $resourceutilization-assignment-bar-color;
+
+            &.b-underallocated {
+                fill : $resourceutilization-assignment-underallocated-bar-color;
+
+                &:hover {
+                    fill : $resourceutilization-assignment-underallocated-bar-hover-color;
+                }
+            }
+
+            &.b-overallocated {
+                fill : $resourceutilization-assignment-overallocated-bar-color;
+
+                &:hover {
+                    fill : $resourceutilization-assignment-overallocated-bar-hover-color;
+                }
+            }
+
+            &:hover {
+                fill : $resourceutilization-assignment-bar-hover-color;
+            }
+        }
+    }
+}

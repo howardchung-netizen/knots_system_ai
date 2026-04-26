@@ -33,9 +33,13 @@ import { FileController } from './modules/file/file.controller';
 import admin from 'firebase-admin';
 import { UserNotificationMessageController } from './modules/userNotificationMessage/userNotificationMessage.controller';
 
-admin.initializeApp({
-  credential: admin.credential.cert(FIREBASE_KEY_PATH),
-});
+try {
+  admin.initializeApp({
+    credential: admin.credential.cert(FIREBASE_KEY_PATH),
+  });
+} catch (e: any) {
+  console.log('Firebase init failed (expected in local dev without key)', e.message);
+}
 
 async function main() {
 

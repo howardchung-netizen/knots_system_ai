@@ -24,6 +24,7 @@ export class NotebookLmSkillService {
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-blink-features=AutomationControlled', // Try to hide automation flag
+          '--disable-dev-shm-usage',
         ]
       });
     }

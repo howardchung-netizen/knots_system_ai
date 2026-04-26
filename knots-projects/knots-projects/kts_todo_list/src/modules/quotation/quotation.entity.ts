@@ -11,7 +11,7 @@ import { QuotationStatus } from '../quotationStatus/quotationStatus.entity';
 import { Project } from '../project/project.entity';
 import { Client } from '../client/client.entity';
 import { ClientContacts } from '../clientContacts/clientContacts.entity';
-import { QuotationFile } from '../quotationFile /quotationFile.entity';
+import { QuotationFile } from '../quotationFile_/quotationFile.entity';
 
 @ObjectType({implements: Node})
 @Entity({name: 'quotation_info'})

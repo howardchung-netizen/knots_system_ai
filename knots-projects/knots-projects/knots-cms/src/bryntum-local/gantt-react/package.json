@@ -1,0 +1,26 @@
+{
+  "name": "@bryntum/gantt-react",
+  "description": "React wrappers for Bryntum Gantt JavaScript component",
+  "version": "5.0.1",
+  "author": {
+    "name": "Bryntum",
+    "url": "https://bryntum.com",
+    "email": "info@bryntum.com"
+  },
+  "license": "Commercial",
+  "homepage": "https://bryntum.com/",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "bryntum",
+    "gantt",
+    "react",
+    "wrapper"
+  ],
+  "bugs": "https://github.com/bryntum/support/issues",
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

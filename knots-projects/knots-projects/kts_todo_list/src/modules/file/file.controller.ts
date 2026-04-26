@@ -14,7 +14,7 @@ import { PdfSourcePageHistory } from '../pdfSourcePageHistory/pdfSourcePageHisto
 import { ContactFile } from '../contactFile/contactFile.entity';
 import { ProjectOrderFile } from '../projectOrderFile/projectOrderFile.entity';
 import { ClaimFormFile } from '../claimFormFile/claimFormFile.entity';
-import { QuotationFile } from '../quotationFile /quotationFile.entity';
+import { QuotationFile } from '../quotationFile_/quotationFile.entity';
 
 export class FileController {
   static async getFile(request: Request, response: Response): Promise<boolean> {

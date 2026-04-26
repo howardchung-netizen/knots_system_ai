@@ -5,6 +5,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import PersonIcon from '@mui/icons-material/Person';
+import { gql, useMutation } from '@apollo/client';
+
+const SEND_AI_MESSAGE = gql`
+  mutation sendAiMessage($data: AiChatMessageInput!) {
+    sendAiMessage(data: $data) {
+      response
+    }
+  }
+`;
 
 const AiChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +23,8 @@ const AiChatWidget = () => {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  const [sendAiMessage] = useMutation(SEND_AI_MESSAGE);
 
   const toggleChat = () => setIsOpen(!isOpen);
 
@@ -33,15 +44,27 @@ const AiChatWidget = () => {
     setInputText('');
     setLoading(true);
 
-    // TODO: Connect to GraphQL (kts_todo_list backend endpoint) using Apollo Client
-    // This is currently a mock until the backend endpoint is ready
-    setTimeout(() => {
+    try {
+      const { data } = await sendAiMessage({
+        variables: {
+          data: {
+            message: inputText
+          }
+        }
+      });
       setMessages((prev) => [
         ...prev,
-        { sender: 'ai', text: `[系統提示] 您傳送了: "${userMessage.text}"。 (後台 Gemini 串接尚未完成，我目前只能回覆測試內容喔！)` }
+        { sender: 'ai', text: data.sendAiMessage.response }
       ]);
+    } catch (err) {
+      console.error("AI Assistant Error:", err);
+      setMessages((prev) => [
+        ...prev,
+        { sender: 'ai', text: `[系統提示] 伺服器連線異常或 API 呼叫失敗。錯誤訊息: ${err.message}` }
+      ]);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (

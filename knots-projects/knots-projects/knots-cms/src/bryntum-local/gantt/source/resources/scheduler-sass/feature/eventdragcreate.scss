@@ -1,0 +1,36 @@
+@import '../variables';
+
+.b-schedulerbase.b-dragcreating {
+    @include user-select-none();
+
+    // prevent tooltips from showing when creating events and prevent 'scheduleclick' from firing on the mouseup of a dragcreate
+    .b-sch-timeaxis-cell,
+    // prevent other events from reacting to hover during drag create
+    .b-sch-event-wrap {
+        pointer-events : none;
+    }
+}
+
+// Mimick old proxy when configured with `lockLayout`
+.b-dragcreate-lock .b-iscreating {
+    opacity : .5;
+
+    .b-sch-event-content {
+        display : none;
+    }
+}
+
+.b-sch-dragcreating.b-too-narrow {
+    opacity : 0.25;
+}
+
+.b-sch-dragcreate-tooltip.b-too-narrow {
+    .b-sch-tooltip-startdate,
+    .b-sch-tooltip-enddate {
+        color : $eventdragcreate-invalid-color;
+
+        .b-sch-clock {
+            border-color : $eventdragcreate-invalid-color;
+        }
+    }
+}

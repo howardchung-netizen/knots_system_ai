@@ -1,0 +1,96 @@
+@import '../../variables';
+@import '../material/material-button';
+@import '../material/material-checkbox';
+@import '../material/material-field';
+@import '../material/material-slidetoggle';
+
+//region Roboto
+
+@font-face {
+    font-family : Roboto;
+    src         : url('fonts/Roboto-Light.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/Roboto-Light.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight : 300;
+}
+
+@font-face {
+    font-family : Roboto;
+    src         : url('fonts/Roboto-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/Roboto-Regular.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight : 400;
+}
+
+@font-face {
+    font-family : Roboto;
+    src         : url('fonts/Roboto-Medium.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/Roboto-Medium.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight : 500;
+}
+
+@font-face {
+    font-family : Roboto;
+    src         : url('fonts/Roboto-Bold.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/Roboto-Bold.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight : 700;
+}
+
+.b-widget {
+    font-family : Roboto, sans-serif;
+}
+
+.b-ripple {
+    box-shadow     : none !important;
+    pointer-events : none !important;
+    position       : relative;
+    display        : flex;
+    align-items    : stretch;
+
+    .b-ripple-inner {
+        flex     : 1 0 100%;
+        position : absolute;
+        overflow : visible;
+
+        circle {
+            animation : b-ripple-expand 0.3s ease-in-out, b-ripple-opacity-in 0.1s linear;
+            opacity   : $ripple-end-opacity;
+        }
+    }
+
+    .b-float-root > & {
+        overflow : hidden;
+    }
+}
+
+.b-has-label.b-bright:not(.b-disabled) label {
+    color : #fff;
+}
+
+.b-panel > .b-toolbar {
+    .b-toolbar-content {
+        align-items : center;
+
+        .b-widget:not(.b-tool) {
+            min-height : 2.5em;
+        }
+    }
+}
+
+@keyframes b-ripple-opacity-in {
+    0% {
+        opacity : $ripple-start-opacity;
+    }
+    100% {
+        opacity : $ripple-end-opacity;
+    }
+}
+
+@keyframes b-ripple-expand {
+    0% {
+        transform : scale(0.1);
+    }
+    100% {
+        transform : scale(1);
+    }
+}
+
+//endregion

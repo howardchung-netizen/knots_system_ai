@@ -5,9 +5,9 @@
   "dependencies": {
     "@apollo/client": "^3.7.2",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@bryntum/demo-resources": "^1.2.0",
-    "@bryntum/gantt": "5.3.1",
-    "@bryntum/gantt-react": "5.3.1",
+    "@bryntum/demo-resources": "file:./src/bryntum-local/demo-resources",
+    "@bryntum/gantt": "file:./src/bryntum-local/gantt",
+    "@bryntum/gantt-react": "file:./src/bryntum-local/gantt-react",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.2",
@@ -23,6 +23,8 @@
     "@tanstack/match-sorter-utils": "^8.7.6",
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-table": "^8.7.9",
+    "ajv": "^8.20.0",
+    "ajv-keywords": "^5.1.0",
     "apollo-link-ws": "^1.0.20",
     "apollo-upload-client": "^17.0.0",
     "bulma": "^0.9.4",
@@ -114,7 +116,7 @@
     ]
   },
   "devDependencies": {
-    "babel-preset-react-app": "npm:@bryntum/babel-preset-react-app@10.0.0",
+    "babel-preset-react-app": "file:./bryntum-local/babel-preset-react-app",
     "cross-env": "~7.0.3",
     "sass": "~1.56.0"
   }

@@ -1,0 +1,173 @@
+/**
+ * React wrapper for Bryntum SchedulingIssueResolutionPopup
+ */
+import React, { Component } from 'react';
+import WrapperHelper from './WrapperHelper.js';
+import { SchedulingIssueResolutionPopup } from '@bryntum/gantt';
+
+export default class BryntumSchedulingIssueResolutionPopup extends Component {
+    static instanceClass = SchedulingIssueResolutionPopup;
+
+    configNames = [
+        'adopt',
+        'align',
+        'anchor',
+        'appendTo',
+        'ariaDescription',
+        'ariaLabel',
+        'autoClose',
+        'autoShow',
+        'bbar',
+        'bodyCls',
+        'bubbleEvents',
+        'callOnFunctions',
+        'centered',
+        'closable',
+        'closeAction',
+        'cls',
+        'collapsed',
+        'collapsible',
+        'config',
+        'constrainTo',
+        'contentElementCls',
+        'defaultBindProperty',
+        'defaultFocus',
+        'defaults',
+        'dock',
+        'draggable',
+        'floating',
+        'focusOnToFront',
+        'footer',
+        'forElement',
+        'header',
+        'hideAnimation',
+        'hideWhenEmpty',
+        'htmlCls',
+        'insertBefore',
+        'insertFirst',
+        'itemCls',
+        'lazyItems',
+        'listeners',
+        'localeClass',
+        'localizableProperties',
+        'maskDefaults',
+        'masked',
+        'maximizable',
+        'modal',
+        'monitorResize',
+        'namedItems',
+        'owner',
+        'positioned',
+        'preventTooltipOnTouch',
+        'ripple',
+        'rootElement',
+        'scrollAction',
+        'showAnimation',
+        'showOnClick',
+        'showTooltipWhenDisabled',
+        'strips',
+        'tab',
+        'tag',
+        'tbar',
+        'textAlign',
+        'textContent',
+        'title',
+        'trapFocus',
+        'ui',
+        'weight'
+    ];
+
+    propertyConfigNames = [
+        'alignSelf',
+        'content',
+        'dataset',
+        'disabled',
+        'extraData',
+        'flex',
+        'height',
+        'hidden',
+        'html',
+        'id',
+        'items',
+        'layout',
+        'layoutStyle',
+        'margin',
+        'maxHeight',
+        'maximized',
+        'maxWidth',
+        'minHeight',
+        'minWidth',
+        'onBeforeClose',
+        'onBeforeDestroy',
+        'onBeforeHide',
+        'onBeforeSetRecord',
+        'onBeforeShow',
+        'onCatchAll',
+        'onDestroy',
+        'onFocusIn',
+        'onFocusOut',
+        'onHide',
+        'onPaint',
+        'onReadOnly',
+        'onResize',
+        'onShow',
+        'onToolClick',
+        'readOnly',
+        'scrollable',
+        'tools',
+        'tooltip',
+        'width',
+        'x',
+        'y'
+    ];
+
+    propertyNames = [
+        'anchorSize',
+        'isSettingValues',
+        'isValid',
+        'record',
+        'type',
+        'values'
+    ];
+
+    // Component instance
+    instance = undefined;
+
+    // Component element
+    element = undefined;
+
+    /**
+     * Invoked immediately after a component is mounted (inserted into the tree)
+     */
+    componentDidMount() {
+        const { createWidget } = WrapperHelper();
+        this.instance = createWidget(this);
+    }
+
+    // React component removed, destroy instance
+    componentWillUnmount() {
+        if (this.instance) {
+            this.instance.destroy();
+        }
+    }
+
+    /**
+     * Component about to be updated, from changing a prop using state.
+     * React to it depending on what changed and prevent react from re-rendering our component.
+     * @param nextProps
+     * @param nextState
+     * @return {boolean}
+     */
+    shouldComponentUpdate(nextProps, nextState) {
+        const { shouldComponentUpdate } = WrapperHelper();
+        return shouldComponentUpdate(this, nextProps, nextState);
+    }
+
+    render() {
+        const className = `b-react-${this.constructor.instanceClass.$name.toLowerCase()}-container`;
+        return (
+            <div className={className} ref={(element) => (this.element = element)}></div>
+        );
+    }
+
+}

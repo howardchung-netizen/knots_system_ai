@@ -6,14 +6,16 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const GET_PROJECTS_PROFIT = gql`
   query getProjectsProfit {
-    projects {
-      projects {
-        id
-        code
-        case
-        address
-        grossProfit
-        profitMargin
+    projects(first: 1000) {
+      edges {
+        node {
+          id
+          code
+          case
+          address
+          grossProfit
+          profitMargin
+        }
       }
     }
   }
@@ -27,7 +29,7 @@ export default function AccountingMain() {
   if (loading) return <Box sx={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}><CircularProgress /></Box>;
   if (error) return <Typography color="error">無法載入毛利表數據</Typography>;
 
-  const rows = data?.projects?.projects || [];
+  const rows = data?.projects?.edges?.map(e => e.node) || [];
 
   const columns = [
     { field: 'code', headerName: '專案編號', width: 150 },

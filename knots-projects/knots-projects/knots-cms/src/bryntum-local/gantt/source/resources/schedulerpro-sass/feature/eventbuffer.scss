@@ -1,0 +1,88 @@
+.b-eventbuffer {
+    .b-sch-event {
+        width: 100%;
+    }
+
+    &.b-sch-vertical .b-sch-event-wrap {
+        contain: size layout;
+    }
+
+    &.b-sch-horizontal .b-sch-event-wrap {
+        .b-sch-event-buffer {
+            height     : 5px;
+            grid-row   : 2;
+            background : repeating-linear-gradient(180deg, transparent, transparent 30%, #ccc 30%, #ccc 70%, transparent 70%, transparent 100%);
+        }
+
+        .b-sch-event-buffer-before {
+            grid-column     : 2;
+            flex-direction  : row;
+            justify-content : flex-end;
+
+            .b-buffer-label {
+                transform         : translate(.1em, -1.2em);
+                margin-inline-end : .5em;
+                flex              : 1;
+            }
+        }
+
+        .b-sch-event-buffer-after {
+            grid-column     : 4;
+            flex-direction  : row-reverse;
+            justify-content : flex-end;
+
+            .b-buffer-label {
+                transform           : translate(-.1em, -1.2em);
+                margin-inline-start : .5em;
+                flex                : 1;
+                text-align          : right;
+            }
+        }
+    }
+
+    &.b-sch-vertical .b-sch-event-wrap {
+        .b-sch-event-buffer {
+            width        : 5px;
+            grid-column  : 1;
+            justify-self : center;
+            background   : repeating-linear-gradient(90deg, transparent, transparent 30%, #ccc 30%, #ccc 70%, transparent 70%, transparent 100%);
+        }
+
+        .b-sch-event-buffer-before {
+            grid-row            : 1;
+            flex-direction      : column;
+            justify-content     : flex-end;
+            .b-buffer-label {
+                margin-inline-end : .5em;
+            }
+        }
+
+        .b-buffer-label {
+            margin-right      : -1.3em;
+            writing-mode      : vertical-rl;
+        }
+
+        .b-sch-event-buffer-after {
+            grid-row          : 3;
+            flex-direction    : column-reverse;
+            justify-content   : flex-end;
+
+            .b-buffer-label {
+                margin-inline-start : .5em;
+            }
+        }
+    }
+
+    .b-sch-event-buffer {
+        display     : flex;
+        color       : #aaa;
+        white-space : nowrap;
+        font-size   : 10px;
+    }
+}
+
+.b-animating {
+    .b-sch-event-buffer {
+        transition  : width .2s;
+    }
+}

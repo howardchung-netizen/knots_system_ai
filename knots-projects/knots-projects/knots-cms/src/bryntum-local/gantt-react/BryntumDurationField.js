@@ -1,0 +1,91 @@
+import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
+import _createClass from "@babel/runtime/helpers/esm/createClass";
+import _inherits from "@babel/runtime/helpers/esm/inherits";
+import _createSuper from "@babel/runtime/helpers/esm/createSuper";
+
+/**
+ * React wrapper for Bryntum DurationField
+ */
+import React, { Component } from 'react';
+import WrapperHelper from './WrapperHelper.js';
+import { DurationField } from '@bryntum/gantt';
+
+var BryntumDurationField = /*#__PURE__*/function (_Component) {
+  _inherits(BryntumDurationField, _Component);
+
+  var _super = _createSuper(BryntumDurationField);
+
+  function BryntumDurationField() {
+    var _this;
+
+    _classCallCheck(this, BryntumDurationField);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+    _this.configNames = ['adopt', 'align', 'allowedUnits', 'allowNegative', 'anchor', 'appendTo', 'ariaDescription', 'ariaLabel', 'autoComplete', 'autoSelect', 'bubbleEvents', 'callOnFunctions', 'centered', 'clearable', 'cls', 'config', 'constrainTo', 'container', 'containValues', 'contentElementCls', 'decimalPrecision', 'defaultBindProperty', 'dock', 'draggable', 'editable', 'floating', 'hideAnimation', 'highlightExternalChange', 'hint', 'hintHtml', 'htmlCls', 'inline', 'inputAlign', 'inputAttributes', 'inputType', 'inputWidth', 'insertBefore', 'insertFirst', 'keyStrokeChangeDelay', 'labelCls', 'labelPosition', 'labels', 'labelWidth', 'listeners', 'localeClass', 'localizableProperties', 'maskDefaults', 'masked', 'max', 'maxLength', 'min', 'minLength', 'monitorResize', 'name', 'owner', 'placeholder', 'positioned', 'preventTooltipOnTouch', 'required', 'revertOnEscape', 'ripple', 'rootElement', 'scrollAction', 'showAnimation', 'showTooltipWhenDisabled', 'spellCheck', 'step', 'tab', 'tabIndex', 'tag', 'textAlign', 'title', 'ui', 'useAbbreviation', 'validateOnInput', 'weight'];
+    _this.propertyConfigNames = ['alignSelf', 'badge', 'content', 'dataset', 'disabled', 'extraData', 'flex', 'height', 'hidden', 'html', 'id', 'label', 'magnitude', 'margin', 'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'onAction', 'onBeforeDestroy', 'onBeforeHide', 'onBeforeShow', 'onCatchAll', 'onChange', 'onClear', 'onDestroy', 'onFocusIn', 'onFocusOut', 'onHide', 'onInput', 'onPaint', 'onReadOnly', 'onResize', 'onShow', 'onTrigger', 'readOnly', 'scrollable', 'tooltip', 'triggers', 'unit', 'value', 'width', 'x', 'y'];
+    _this.propertyNames = ['anchorSize', 'type'];
+    _this.instance = undefined;
+    _this.element = undefined;
+    return _this;
+  }
+
+  _createClass(BryntumDurationField, [{
+    key: "componentDidMount",
+    value:
+    /**
+     * Invoked immediately after a component is mounted (inserted into the tree)
+     */
+    function componentDidMount() {
+      var _WrapperHelper = WrapperHelper(),
+          createWidget = _WrapperHelper.createWidget;
+
+      this.instance = createWidget(this);
+    } // React component removed, destroy instance
+
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.instance) {
+        this.instance.destroy();
+      }
+    }
+    /**
+     * Component about to be updated, from changing a prop using state.
+     * React to it depending on what changed and prevent react from re-rendering our component.
+     * @param nextProps
+     * @param nextState
+     * @return {boolean}
+     */
+
+  }, {
+    key: "shouldComponentUpdate",
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      var _WrapperHelper2 = WrapperHelper(),
+          shouldComponentUpdate = _WrapperHelper2.shouldComponentUpdate;
+
+      return shouldComponentUpdate(this, nextProps, nextState);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var className = "b-react-".concat(this.constructor.instanceClass.$name.toLowerCase(), "-container");
+      return /*#__PURE__*/React.createElement("div", {
+        className: className,
+        ref: function ref(element) {
+          return _this2.element = element;
+        }
+      });
+    }
+  }]);
+
+  return BryntumDurationField;
+}(Component);
+
+BryntumDurationField.instanceClass = DurationField;
+export { BryntumDurationField as default };

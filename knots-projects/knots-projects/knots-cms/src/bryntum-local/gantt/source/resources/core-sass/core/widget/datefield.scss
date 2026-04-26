@@ -1,0 +1,19 @@
+@import '../../variables';
+
+.b-datefield {
+    &.b-open {
+        .b-fieldtrigger {
+            color : $main-color !important;
+        }
+    }
+
+    &.b-no-steppers {
+        .b-step-trigger {
+            display : none;
+        }
+    }
+
+    &.b-rtl .b-step-trigger::before {
+        transform : scaleX(-1);
+    }
+}

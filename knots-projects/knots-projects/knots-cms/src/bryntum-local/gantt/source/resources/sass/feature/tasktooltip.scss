@@ -1,0 +1,31 @@
+.b-gantt-task-tooltip {
+    max-width : 30em;
+
+    .b-sch-clockwrap {
+        margin-top: .5em;
+    }
+
+    .b-sch-clockwrap:first-child {
+        margin-top: 0;
+    }
+
+    .b-gantt-task-title {
+        font-weight : 600;
+    }
+
+    table,tr,td {
+        padding: 0;
+    }
+
+    td {
+        padding-top: 3px;
+    }
+
+    td:last-child {
+        text-align: right;
+    }
+
+    .b-sch-clock {
+        display : none;
+    }
+}

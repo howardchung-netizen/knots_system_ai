@@ -1,0 +1,33 @@
+{
+  "name": "@bryntum/gantt",
+  "description": "Bryntum Gantt JavaScript component",
+  "version": "5.0.1",
+  "author": {
+    "name": "Bryntum",
+    "url": "https://bryntum.com",
+    "email": "info@bryntum.com"
+  },
+  "license": "Commercial",
+  "homepage": "https://bryntum.com/products/gantt/",
+  "main": "gantt.module.js",
+  "scripts": {
+    "postinstall": "node ../gantt-lib/build.js"
+  },
+  "dependencies": {
+    "@bryntum/gantt-lib": "file:../gantt-lib"
+  },
+  "devDependencies": {},
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "keywords": [
+    "bryntum",
+    "gantt",
+    "component"
+  ],
+  "bugs": "https://github.com/bryntum/support/issues",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "types": "./gantt.d.ts"
+}

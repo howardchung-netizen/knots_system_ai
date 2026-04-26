@@ -1,0 +1,5 @@
+@import '../../../scheduler-sass/themes/vars/material-vars';
+
+$schedulerpro-timeline-border-color: $grid-cell-border-color;
+$schedulerpro-timeline-label-color: darken($grid-cell-border-color, 10%);
+$schedulerpro-timeline-label-font-weight : 400;

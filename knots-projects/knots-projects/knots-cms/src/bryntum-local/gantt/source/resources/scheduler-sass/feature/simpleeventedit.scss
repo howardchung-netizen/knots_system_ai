@@ -1,0 +1,15 @@
+@import "../variables";
+
+.b-simpleeventeditor {
+    // Must be above the canvas elements
+    z-index : 15;
+
+    .b-field {
+        // Make field fill entire editor, to not look weird in vertical
+        align-items : stretch;
+    }
+
+    .b-sch-horizontal & .b-field {
+        height : 100%;
+    }
+}

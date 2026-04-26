@@ -1,0 +1,13 @@
+.b-calculation-progress-wrap {
+    position : absolute;
+    bottom   : 0;
+    display  : flex;
+    width    : 100%;
+    height   : 2px;
+    z-index  : 100;
+}
+
+.b-calculation-progress {
+    background : $green;
+    opacity    : 0.3;
+}

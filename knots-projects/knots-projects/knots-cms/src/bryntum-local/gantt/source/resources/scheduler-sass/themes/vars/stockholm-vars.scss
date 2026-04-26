@@ -1,0 +1,33 @@
+@import '../../../grid-sass/themes/vars/stockholm-vars';
+
+$event-color-red : #e53f2c;
+$event-color-pink : #fe3183;
+$event-color-purple : #fe31ea;
+$event-color-violet : #ac31fe;
+$event-color-indigo : #4531fe;
+$event-color-blue : #3183fe;
+$event-color-cyan : #31e9fe;
+$event-color-teal : #31feac;
+$event-color-green : #27ca37;
+$event-color-lime : #76e62c;
+$event-color-yellow : #FFEB3B;
+$event-color-orange : #feac31;
+$event-color-gantt-green : #8ee997;
+
+
+$event-font-size : 13px;
+$event-font-weight : 500;
+$event-selected-font-weight : $event-font-weight;
+
+$eventedit-label-width : 6em;
+$eventedit-label-filler-width : 6.6em;
+
+$recurrenceeditor-label-width : 10.4em;
+$recurrenceeditor-label-filler-width : 10.8em;
+
+$dependency-tooltip-terminal-color : #888;
+
+$clock-background-color : #f8f8f8;
+
+$resourcetimerange-opacity : .1;
+

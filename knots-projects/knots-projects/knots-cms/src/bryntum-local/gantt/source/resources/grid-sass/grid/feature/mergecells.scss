@@ -1,0 +1,76 @@
+@import '../../variables.scss';
+
+// Overflow must be visible for sticky merged cells to work
+.b-mergecells {
+    // FF specific override
+    .b-gridbase.b-firefox &,
+    &.b-gridbase.b-firefox {
+        .b-grid-subgrid.b-grid-horizontal-scroller:not(.b-overlay-scrollbar) {
+            overflow : visible !important;
+        }
+    }
+
+    .b-grid-subgrid:not(.b-grid-subgrid-collapsed),
+    .b-grid-vertical-scroller {
+        overflow : visible !important;
+    }
+
+    .b-grid-row.b-hover,
+    &.b-mergecells-passthrough .b-grid-row.b-selected,
+    .b-using-keyboard & .b-grid-row.b-selected {
+        z-index  : 1;
+        // Allow using cell to mimic row border top
+        overflow : visible;
+
+        .b-merged-cell {
+            top        : -1px;
+            height     : calc(100% + 1px);
+            border-top : 1px solid $grid-cell-border-color;
+        }
+    }
+
+    .b-merged-cell {
+        border-bottom : none;
+    }
+}
+
+// Merged cells float above rows
+.b-grid-merged-cells {
+    position      : absolute;
+    contain       : strict;
+    border-right  : 1px solid $grid-cell-border-color;
+    border-bottom : 1px solid $grid-cell-border-color;
+    z-index       : 1;
+    display       : flex;
+    align-items   : flex-start;
+    background    : $grid-background-color;
+
+    .b-gridbase.b-mergecells-passthrough & {
+        pointer-events : none;
+    }
+
+    // Keeping until the chosen approach is accepted by clients
+    // Cant use background color, that would make the merged range semi-transparent. This gives us correct appearance
+    //&.b-hover {
+    //    box-shadow : inset 0 0 0 1000px $grid-row-hover-background-color;
+    //}
+
+    // Cant use background color, that would make the merged range semi-transparent. This gives us correct appearance
+    &:hover {
+        box-shadow : inset 0 0 0 1000px $grid-row-hover-background-color;
+    }
+
+    // Cant use background color, that would make the merged range semi-transparent. This gives us correct appearance
+    &.b-selected {
+        box-shadow : inset 0 0 0 1000px $grid-row-selected-background-color;
+    }
+
+    // Stick the single cell inside a merged range
+    .b-grid-cell {
+        position : sticky;
+        top      : 0;
+        flex     : 1;
+        contain  : none;
+        overflow : visible;
+    }
+}

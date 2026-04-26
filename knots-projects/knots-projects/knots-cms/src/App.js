@@ -299,7 +299,7 @@ const App = props => {
                           <Route path="/pdf/upload/:code" element={<PDFUpload />} />
                           <Route path="/" element={<CheckLogin />}>
                            <Route path="/gantt_chart/share/:code/:projectId"
-                              element={<IframeGantt
+                              element={<ScreenGantt
                                 appToken={REACT_APP_TOKEN}
                                 REACT_APP_KQS_HTTPS_ENDPOINT={REACT_APP_KQS_HTTPS_ENDPOINT}
                                 REACT_APP_TODO_HTTP_ENDPOINT={REACT_APP_TODO_HTTP_ENDPOINT}
@@ -311,7 +311,7 @@ const App = props => {
                               }
                             />
                             <Route path="/gantt_chart/share_en/:code/:projectId"
-                              element={<IframeGantt
+                              element={<ScreenGantt
                                 appToken={REACT_APP_TOKEN}
                                 REACT_APP_KQS_HTTPS_ENDPOINT={REACT_APP_KQS_HTTPS_ENDPOINT}
                                 REACT_APP_TODO_HTTP_ENDPOINT={REACT_APP_TODO_HTTP_ENDPOINT}
@@ -323,8 +323,8 @@ const App = props => {
                               }
                             />
                             <Route path="/cms/gantt_chart/project/:projectId"
-                              element={<IframeGantt
-                                appToken={REACT_APP_TOKEN}
+                              element={<ScreenGantt
+                                appToken={cookies.get('authToken')}
                                 REACT_APP_KQS_HTTPS_ENDPOINT={REACT_APP_KQS_HTTPS_ENDPOINT}
                                 REACT_APP_TODO_HTTP_ENDPOINT={REACT_APP_TODO_HTTP_ENDPOINT}
                                 REACT_APP_TODO_GRAPHQL_ENDPOINT={REACT_APP_TODO_GRAPHQL_ENDPOINT}

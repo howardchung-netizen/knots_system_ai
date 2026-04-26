@@ -1,0 +1,23 @@
+@import 'vars/stockholm-vars';
+@import '../all';
+
+.b-icon-sort-asc:before {
+    content: "#{ $fa-var-arrow-up }";
+}
+
+.b-icon-sort-desc:before {
+    content: "#{ $fa-var-arrow-down }";
+}
+
+.b-icon-group-collapse:before {
+    content : '\f068' !important;
+}
+
+.b-icon-group-expand:before {
+    content : '\f067' !important;
+}
+
+// hide borders in headers when column lines are hidden
+.b-gridbase.b-no-column-lines .b-grid-header {
+    border-right-color : transparent;
+}

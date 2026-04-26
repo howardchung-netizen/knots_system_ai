@@ -1,0 +1,18 @@
+@import '../../variables';
+
+.b-dependencytab {
+    .b-grid {
+        .b-grid-row.b-invalid {
+            border-bottom: 1px dotted $red;
+
+            .b-icon-warning {
+                color: $red;
+            }
+        }
+
+        .b-grid-row .b-grid-cell.b-inactive {
+            text-decoration : line-through;
+            // color           : $gantt-inactive-task-cell-color;
+        }
+    }
+}

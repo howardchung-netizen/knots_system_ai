@@ -6,15 +6,17 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const GET_AP_LIST = gql`
   query getApList {
-    projectOrders(pagination: { limit: 1000, offset: 0 }) {
-      orders {
-        id
-        realId
-        supplier
-        amount
-        orderedDate
-        settlement
-        desc
+    projectOrders(first: 1000) {
+      edges {
+        node {
+          id
+          realId
+          supplier
+          amount
+          orderedDate
+          settlement
+          desc
+        }
       }
     }
   }
@@ -29,7 +31,7 @@ export default function AccountingPayableList() {
   if (error) return <Typography color="error">無法載入應付清單數據</Typography>;
 
   // Filter out fully settled orders
-  const rows = data?.projectOrders?.orders?.filter(order => !order.settlement) || [];
+  const rows = data?.projectOrders?.edges?.map(e => e.node)?.filter(order => !order.settlement) || [];
 
   const columns = [
     { field: 'realId', headerName: '訂單/憑證號', width: 150 },

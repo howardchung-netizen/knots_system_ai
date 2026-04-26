@@ -1,0 +1,46 @@
+@import '../../variables';
+
+.b-timefield {
+    &.b-open {
+        .b-icon-clock-live {
+            background-color : $main-color !important;
+        }
+    }
+
+    &.b-empty {
+        .b-fieldtrigger {
+            animation-delay : -300s;
+        }
+    }
+
+    &.b-disabled,
+    &.b-readonly {
+        .b-icon-clock-live {
+            background-color : $field-disabled-trigger-color;
+        }
+    }
+
+    &:not(.b-disabled):not(.b-readonly) {
+        .b-icon-angle-left,
+        .b-icon-angle-right {
+            &:hover {
+                color : $main-color;
+            }
+        }
+    }
+
+    &.b-no-steppers {
+        .b-step-trigger {
+            display : none;
+        }
+    }
+
+    .b-step-trigger::before {
+        // Override default to not transition transform when flipping the icons
+        transition : color .3s;
+    }
+
+    &.b-rtl .b-step-trigger::before {
+        transform : scaleX(-1);
+    }
+}

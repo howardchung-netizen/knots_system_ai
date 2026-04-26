@@ -1,0 +1,31 @@
+.b-schedulerpro-issueresolutionpopup {
+    width     : clamp(400px, 45%, 100%);
+
+    max-width : 80%;
+
+    .b-error-description,
+    .b-invalid-dependencies-description {
+        display       : block;
+        margin-bottom : 1em;
+        line-height   : 1.5em;
+    }
+
+    .b-checkbox {
+        margin-bottom : 1em;
+
+        .b-field-inner .b-checkbox-label {
+            display        : flex;
+            text-transform : none;
+            font-size      : 1em;
+            align-items    : center;
+
+            &:before {
+                margin-inline-end : 0.7em;
+            }
+        }
+    }
+
+    .b-dependency-field {
+        width : 33em;
+    }
+}

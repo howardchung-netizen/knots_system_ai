@@ -1,0 +1,45 @@
+@import '../variables';
+
+// Need higher specificity than dependencies rules
+.b-ganttbase.b-gantt-critical-paths {
+
+    marker#arrowEndCritical {
+        fill : $gantt-critical-dependency-stroke;
+
+        path {
+            fill   : $gantt-critical-dependency-stroke;
+            stroke : $gantt-critical-dependency-stroke;
+        }
+    }
+
+    /* parents */
+    .b-gantt-task-parent {
+        .b-gantt-task.b-critical {
+            background-color : $gantt-critical-parent-background-color;
+        }
+    }
+
+    /* leaves */
+    .b-gantt-task.b-critical {
+        background-color : $gantt-critical-task-background-color;
+    }
+
+    .b-milestone-wrap .b-gantt-task.b-critical:not(.b-gantt-task-withicon) {
+        background-color : transparent;
+
+        .b-gantt-task-content {
+            background-color : $gantt-critical-task-background-color;
+
+            &:hover {
+                background-color : $gantt-critical-task-background-color;
+            }
+        }
+    }
+
+    /* dependencies */
+    .b-sch-dependency.b-critical {
+        stroke       : $gantt-critical-dependency-stroke;
+        stroke-width : 2;
+        marker-start : url("#arrowEndCritical");
+    }
+}

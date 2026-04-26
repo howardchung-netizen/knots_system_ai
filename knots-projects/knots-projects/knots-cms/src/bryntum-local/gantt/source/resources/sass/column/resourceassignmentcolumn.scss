@@ -1,0 +1,52 @@
+@import '../variables';
+
+.b-resourceassignment-cell {
+    padding-block : 0.4em;
+}
+
+.b-resource-avatar-container {
+    display     : flex;
+    align-items : center;
+    height      : 100%;
+
+    .b-resource-avatar,
+    .b-overflow-img {
+        height     : 100%;
+        width      : auto;
+    }
+
+    &:empty {
+        height : 2.2em;
+    }
+
+    .b-resource-avatar {
+        margin-right : 2px;
+    }
+}
+
+.b-resource-initials {
+    // Only apply background if there is none specified by an eventColor
+    &:not([class*="b-sch-"]) {
+        background : $gantt-parent-background-color;
+    }
+}
+
+.b-overflow-img {
+    position : relative;
+    height   : $avatar-size;
+    width    : $avatar-size;
+    overflow : hidden;
+
+    .b-resource-avatar {
+        filter : brightness(60%);
+    }
+
+    .b-overflow-count {
+        position       : absolute;
+        left           : 50%;
+        top            : 50%;
+        transform      : translate(-50%, -50%);
+        color          : #fff;
+        pointer-events : none;
+    }
+}

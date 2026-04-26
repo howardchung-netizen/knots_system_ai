@@ -30,7 +30,7 @@ import { MeasurementRepository } from '../measurement/measurement.repository';
 import { uuid } from 'uuidv4';
 import { QuotationUploadFileInput } from './input/quotationUploadFile.input';
 import { uploadToLocal } from '../../lib/storage';
-import { QuotationFile } from '../quotationFile /quotationFile.entity';
+import { QuotationFile } from '../quotationFile_/quotationFile.entity';
 import { QuotationDuplicateInput } from './input/quotationDuplicate.input';
 
 @Service()

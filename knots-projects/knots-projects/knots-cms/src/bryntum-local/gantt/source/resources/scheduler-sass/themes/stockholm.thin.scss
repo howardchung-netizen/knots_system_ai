@@ -1,0 +1,14 @@
+@import 'vars/stockholm-vars';
+@import '../all';
+
+.b-sch-style-plain {
+    border-radius : 2px;
+}
+
+.b-gridbase.b-no-column-lines .b-sch-header-timeaxis-cell {
+    border-right-color : transparent;
+}
+
+.b-recurrenceeditor.b-popup .b-recurrenceeditor-content.b-popup-content .b-field.b-recurrencepositionscombo {
+    width : $recurrenceeditor-label-width - 0.3em;
+}

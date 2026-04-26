@@ -6,15 +6,17 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const GET_AR_LIST = gql`
   query getArList {
-    projectInvoices(pagination: { limit: 1000, offset: 0 }) {
-      invoices {
-        id
-        invId
-        project
-        date
-        totalAmount
-        balance
-        settlement
+    projectInvoices(first: 1000) {
+      edges {
+        node {
+          id
+          invId
+          project
+          date
+          totalAmount
+          balance
+          settlement
+        }
       }
     }
   }
@@ -29,7 +31,7 @@ export default function AccountingArList() {
   if (error) return <Typography color="error">無法載入應收清單數據</Typography>;
 
   // Filter out fully settled invoices to only show Accounts Receivable
-  const rows = data?.projectInvoices?.invoices?.filter(inv => !inv.settlement) || [];
+  const rows = data?.projectInvoices?.edges?.map(e => e.node)?.filter(inv => !inv.settlement) || [];
 
   const columns = [
     { field: 'invId', headerName: '發票號碼', width: 180 },

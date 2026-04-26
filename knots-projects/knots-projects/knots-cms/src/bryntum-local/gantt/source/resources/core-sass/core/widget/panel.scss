@@ -1,0 +1,635 @@
+@import '../../variables';
+
+// Only floating panels have radius. If they are contained, that would leave visible gaps.
+.b-panel.b-floating {
+    border-radius : $widget-border-radius;
+
+    // By default the body gets a border radius
+    > .b-panel-body-wrap > .b-panel-content {
+        border-radius : $widget-border-radius;
+    }
+
+    // If we have a header, it needs top border-radius instead of body (removed further down).
+    // The same applies for no header but a top toolbar
+    > .b-panel-header.b-dock-top,
+    &:not(.b-has-header) > .b-panel-body-wrap > .b-toolbar.b-dock-top {
+        border-top-left-radius  : $widget-border-radius;
+        border-top-right-radius : $widget-border-radius;
+    }
+
+    // If we have a bottom toolbar, it needs bottom border-radius (removed from body further down)
+    > .b-panel-body-wrap > .b-toolbar.b-dock-bottom {
+        border-bottom-left-radius  : $widget-border-radius;
+        border-bottom-right-radius : $widget-border-radius;
+    }
+
+    // Has header or top toolbar, remove top radius from body
+    &.b-panel-has-header,
+    &.b-panel-has-top-toolbar {
+        > .b-panel-body-wrap > .b-panel-content {
+            border-top-left-radius  : 0;
+            border-top-right-radius : 0;
+        }
+    }
+
+    // Has bottom toolbar, remove bottom radius from body
+    &.b-panel-has-bottom-toolbar > .b-panel-body-wrap > .b-panel-content {
+        border-bottom-left-radius  : 0;
+        border-bottom-right-radius : 0;
+    }
+}
+
+.b-panel {
+    padding : 0;
+    color   : $panel-color;
+    z-index : 0; // establish our own stacking context to keep header above other elements
+
+    > .b-panel-body-wrap {
+        overflow : hidden;
+    }
+
+    > .b-panel-overlay,
+    > .b-panel-body-wrap {
+        z-index : 0; // lock all items inside the panel below the header
+    }
+
+    > .b-panel-collapse-size-locker {
+        position : absolute !important;
+    }
+
+    &:not(.b-panel-collapsible-overlay) {
+        &.b-collapsed > .b-panel-collapse-size-locker {
+            clip : rect(0, 0, 0, 0);
+        }
+
+        &.b-panel-collapse-down:not(.b-panel-has-header),
+        &.b-header-dock-bottom.b-panel-collapse-down,
+        &.b-header-dock-bottom.b-panel-collapse-up {
+            > .b-panel-collapse-size-locker {
+                top : 0;
+            }
+        }
+
+        &.b-panel-collapse-up:not(.b-panel-has-header),
+        &.b-header-dock-top.b-panel-collapse-up,
+        &.b-header-dock-top.b-panel-collapse-down {
+            > .b-panel-collapse-size-locker {
+                bottom : 0;
+            }
+        }
+
+        &.b-panel-collapse-left:not(.b-panel-has-header),
+        &.b-header-dock-left.b-panel-collapse-left,
+        &.b-header-dock-left.b-panel-collapse-right {
+            > .b-panel-collapse-size-locker {
+                right : 0;
+            }
+        }
+
+        &.b-panel-collapse-right:not(.b-panel-has-header),
+        &.b-header-dock-right.b-panel-collapse-left,
+        &.b-header-dock-right.b-panel-collapse-right {
+            > .b-panel-collapse-size-locker {
+                left : 0;
+            }
+        }
+    }
+
+    &.b-panel-collapsible-overlay {
+        &:not(.b-collapsing,.b-expanding,.b-panel-overlay-revealed,.b-panel-overlay-revealing) {
+            > .b-panel-overlay > .b-panel-overlay-header {
+                display : none;
+            }
+        }
+
+        &.b-panel-overlay-revealed > .b-panel-overlay {
+            box-shadow : $panel-collapse-overlay-box-shadow;
+            overflow   : visible;
+        }
+
+        > .b-panel-header {
+            transition : transform 0.2s ease-in-out;
+        }
+
+        &.b-collapsed {
+            > .b-panel-header > .b-collapsify-hide {
+                display : none;
+            }
+        }
+
+        // We need to "hide" the extra panel header because we go to overflow:visible during expand/collapse
+        // to allow the overlay to remain visible
+        &.b-collapsing,
+        &.b-expanding {
+            > .b-panel-header {
+                opacity : 0;
+            }
+        }
+
+        &:not(.b-collapsed,.b-collapsing) > .b-panel-overlay > .b-panel-overlay-header {
+            display : none;
+        }
+
+        &.b-collapsing, &.b-expanding, &.b-panel-overlay-revealing, &.b-panel-overlay-revealed {
+            overflow : visible;
+            // Push collapsing/expanding/revealed panels above their normal siblings
+            z-index  : 1;
+        }
+
+        &.b-panel-collapse-down > .b-panel-collapse-size-locker {
+            bottom : 0;
+        }
+
+        &.b-panel-collapse-up > .b-panel-collapse-size-locker {
+            top : 0;
+        }
+
+        &.b-panel-collapse-left > .b-panel-collapse-size-locker {
+            left : 0;
+        }
+
+        &.b-panel-collapse-right > .b-panel-collapse-size-locker {
+            right : 0;
+        }
+
+        &.b-collapsing {
+            overflow : visible;
+
+            > .b-panel-header {
+                z-index : -1;
+            }
+
+            &.b-panel-collapse-up > .b-panel-header {
+                transform : translate(0, -100%);
+            }
+
+            &.b-panel-collapse-down > .b-panel-header {
+                transform : translate(0, 100%);
+            }
+
+            &.b-panel-collapse-right > .b-panel-header {
+                transform : translate(100%, 0);
+            }
+
+            &.b-panel-collapse-left > .b-panel-header {
+                transform : translate(-100%, 0);
+            }
+        }
+
+        &.b-collapsed:not(.b-expanding) {
+            > .b-panel-collapse-size-locker {
+                transition :
+                        transform 0.2s ease-in-out,
+                        clip-path 0.2s ease-in-out,
+                        top 0.2s ease-in-out,
+                        right 0.2s ease-in-out,
+                        bottom 0.2s ease-in-out,
+                        left 0.2s ease-in-out;
+            }
+
+            &.b-panel-collapse-up {
+                > .b-panel-collapse-size-locker {
+                    transform : translate(0, -100%);
+                    clip-path : inset(0 0 100% 0);
+                }
+
+                &.b-panel-overlay-revealed > .b-panel-collapse-size-locker {
+                    clip-path : inset(0 0 -10px 0); // -10px bottom for box-shadow
+                    transform : translate(0, 0);
+
+                    &:not(.b-panel-overlay-header-top) {
+                        top : 100%;
+                    }
+                }
+            }
+
+            &.b-panel-collapse-down {
+                > .b-panel-collapse-size-locker {
+                    transform : translate(0, 100%);
+                    clip-path : inset(100% 0 0 0);
+                }
+
+                &.b-panel-overlay-revealed > .b-panel-collapse-size-locker {
+                    clip-path : inset(-10px 0 0 0); // -10px top for box-shadow
+                    transform : translate(0, 0);
+
+                    &:not(.b-panel-overlay-header-bottom) {
+                        bottom : 100%;
+                    }
+                }
+            }
+
+            &.b-panel-collapse-left {
+                > .b-panel-collapse-size-locker {
+                    transform : translate(-100%, 0);
+                    clip-path : inset(0 0 0 100%);
+                }
+
+                &.b-panel-overlay-revealed > .b-panel-collapse-size-locker {
+                    clip-path : inset(0 -10px 0 0); // -10px right for box-shadow
+                    transform : translate(0, 0);
+
+                    &:not(.b-panel-overlay-header-left) {
+                        left : 100%;
+                    }
+                }
+            }
+
+            &.b-panel-collapse-right {
+                > .b-panel-collapse-size-locker {
+                    transform : translate(100%, 0);
+                    clip-path : inset(0 100% 0 0);
+                }
+
+                &.b-panel-overlay-revealed > .b-panel-collapse-size-locker {
+                    clip-path : inset(0 0 0 -10px); // -10px left for box-shadow
+                    transform : translate(0, 0);
+
+                    &:not(.b-panel-overlay-header-right) {
+                        right : 100%;
+                    }
+                }
+            }
+        }
+
+        &.b-expanding {
+            flex     : none !important;
+            overflow : visible;
+        }
+    }
+
+    // When we collapse a panel, the header needs to stick to the desired edge:
+    &.b-header-dock-right, &.b-header-dock-bottom {
+        justify-content : flex-end;
+    }
+
+    &.b-collapsed {
+        // Remove from tabbing sequence when collapsed
+        &:not(.b-expanding):not(.b-panel-overlay-revealed) {
+            visibility : hidden;
+        }
+
+        // But this must be visible
+        > .b-panel-collapse-revealer {
+            visibility : visible;
+            cursor     : pointer;
+        }
+    }
+
+    &.b-collapsed, &.b-collapsing {
+        // We must refuse to give away any space when collapsed
+        flex-grow   : unset !important;
+        flex-basis  : unset !important;
+        flex-shrink : 0 !important;
+
+        &.b-header-dock-top, &.b-header-dock-bottom {
+            min-height : auto !important;
+
+            &.b-panel-collapsible-overlay {
+                // override configured height on these panels and allow their header alone to determine their height
+                height : unset !important;
+            }
+
+            .b-vbox > & {
+                // all collapse modes need to ignore flex in this case
+                flex : none !important;
+            }
+        }
+
+        &.b-header-dock-right, &.b-header-dock-left {
+            min-width : auto !important;
+
+            &.b-panel-collapsible-overlay {
+                // override configured width on these panels and allow their header alone to determine their width
+                width : unset !important;
+            }
+
+            .b-hbox > & {
+                // all collapse modes need to ignore flex in this case
+                flex : none !important;
+            }
+        }
+    }
+
+    &.b-collapsed:not(.b-expanding) {
+        &.b-header-dock-right, &.b-header-dock-left {
+            width : unset !important;
+        }
+    }
+
+    // Where the body joins the header, border radius has to be disabled
+    &.b-header-dock-top {
+        .b-panel-content {
+            border-top-right-radius : 0;
+            border-top-left-radius  : 0;
+        }
+    }
+
+    &.b-header-dock-right {
+        .b-panel-content {
+            border-top-right-radius    : 0;
+            border-bottom-right-radius : 0;
+        }
+    }
+
+    &.b-header-dock-bottom {
+        .b-panel-content {
+            border-bottom-left-radius  : 0;
+            border-bottom-right-radius : 0;
+        }
+    }
+
+    &.b-header-dock-left {
+        .b-panel-content {
+            border-top-left-radius    : 0;
+            border-bottom-left-radius : 0;
+        }
+    }
+
+    &.b-panel-has-bottom-toolbar {
+        .b-panel-content {
+            border-bottom-left-radius  : 0;
+            border-bottom-right-radius : 0;
+        }
+    }
+
+    // Only radius the outer edges of docked items in floating Panels.
+    &.b-floating {
+        > .b-dock-top {
+            border-top-right-radius : $widget-border-radius;
+            border-top-left-radius  : $widget-border-radius;
+        }
+
+        > .b-dock-right {
+            border-top-right-radius    : $widget-border-radius;
+            border-bottom-right-radius : $widget-border-radius;
+        }
+
+        > .b-dock-bottom {
+            position                   : static; // Inherits relative, which gives a subpixel spacing between docked and content
+            border-bottom-left-radius  : $widget-border-radius;
+            border-bottom-right-radius : $widget-border-radius;
+        }
+
+        > .b-dock-left {
+            border-top-left-radius    : $widget-border-radius;
+            border-bottom-left-radius : $widget-border-radius;
+        }
+    }
+}
+
+.b-panel-content {
+    background-color : $panel-background-color;
+    justify-content  : space-between;
+    overflow         : hidden;
+    padding          : $panel-content-padding;
+
+    + .b-toolbar.b-bottom-toolbar {
+        min-height : 4.8em;
+    }
+
+    // Try to help users out.
+    // If they don't specify a layout, and only put one child in the Panel,
+    // flex it to occupy the main axis.
+    &.b-auto-container.b-single-child {
+        > .b-container {
+            flex : 1 1 auto;
+        }
+    }
+
+    // No padding on body when using fit layout, let widget fill it fully
+    &.b-fit-container {
+        padding : 0;
+    }
+}
+
+
+// When displayed in a tabpanel, match its color
+.b-tabpanel .b-panel-content {
+    background-color : $tabpanel-background-color;
+}
+
+
+.b-panel-header {
+    display          : flex;
+    background-color : $panel-header-background-color;
+    color            : $panel-header-color;
+    padding          : $panel-header-padding;
+    flex             : 0 0 auto; // Must participate in flex using flex-basis: auto
+    align-items      : center;
+    z-index          : 1;
+
+    &.b-panel-ui-toolbar {
+        background-color : $panel-toolbar-background-color;
+        color            : $panel-toolbar-color;
+        padding          : $panel-toolbar-padding;
+
+        &.b-dock-top,
+        &.b-dock-bottom {
+            min-height : $panel-toolbar-min-size;
+        }
+
+        &.b-dock-left,
+        &.b-dock-right {
+            min-width : $panel-toolbar-min-size;
+        }
+
+        .b-header-title {
+            font-size   : unset;
+            font-weight : unset;
+        }
+
+        &.b-dock-top {
+            border-bottom : $panel-toolbar-top-border-bottom;
+        }
+    }
+
+    &.b-dock-top {
+        border-bottom : $panel-header-border-bottom;
+    }
+
+    &.b-dock-right {
+        flex-flow : column nowrap;
+    }
+
+    &.b-dock-left {
+        flex-flow : column-reverse nowrap;
+
+        .b-header-title {
+            transform : rotate(180deg);
+        }
+    }
+
+    .b-header-title {
+        // If there are tools inside the header, add some air
+        &:not(:last-child) {
+            padding-right : 1em;
+        }
+
+        flex            : 1 1 auto;
+        text-align      : center;
+        justify-content : center;
+        font-size       : $panel-header-font-size;
+        font-weight     : $panel-header-font-weight;
+        white-space     : nowrap;
+        overflow        : hidden;
+        text-overflow   : ellipsis;
+
+        &.b-align-start {
+            text-align      : start;
+            justify-content : flex-start;
+        }
+
+        &.b-align-center {
+            text-align         : center;
+            justify-content    : center;
+            // No additional air for tools if centering
+            padding-inline-end : 0;
+        }
+
+        &.b-align-end {
+            text-align      : end;
+            justify-content : flex-end;
+
+            // Some air before tool icons if aligned end
+            &:not(:last-child) {
+                margin-inline-end : 1em;
+            }
+        }
+    }
+
+    &.b-dock-right, &.b-dock-left {
+        .b-header-title {
+            -webkit-writing-mode : vertical-lr;
+            writing-mode         : vertical-lr;
+            -ms-writing-mode     : tb-lr;
+        }
+    }
+
+    &.b-dock-right, &.b-dock-bottom {
+        order : 100;
+    }
+}
+
+.b-button.b-tool,
+.b-tool {
+    cursor           : pointer;
+    color            : $panel-tool-color;
+    height           : 2em;
+    width            : 2em;
+    font-size        : 0.9em;
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    border-radius    : 50%;
+
+    // Override user agent button styling
+    border           : 0 none;
+    background-color : transparent;
+
+    // Remove inner focus outline in FF
+    &::-moz-focus-inner {
+        border : 0;
+    }
+
+    &:focus {
+        outline : none;
+
+        .b-using-keyboard & {
+            background-color : rgba(220, 220, 220, 0.5);
+        }
+    }
+
+    // Tools may not be compressed
+    flex-shrink      : 0;
+
+    // Constrain what gets repainted.
+    contain          : paint;
+
+    &.b-icon:before {
+        width       : 1em;
+        height      : 1em;
+        text-align  : center;
+        // To avoid misalignment from the smaller font-size used on tools
+        line-height : inherit;
+    }
+
+    &:hover {
+        opacity : 0.8;
+    }
+
+    &.b-disabled {
+        opacity : 0.4;
+    }
+
+    &.b-rotate-left:before {
+        transform : rotate(270deg);
+    }
+
+    &.b-rotate-right:before {
+        transform : rotate(90deg);
+    }
+
+    i {
+        // Aligns i to the center of the button by adjusting i size to the content
+        display : flex;
+    }
+
+    a {
+        color : $panel-tool-color;
+    }
+}
+
+.b-button.b-tool {
+    // Button defines a larger min-height & min-width, need to counteract
+    min-height : 2em;
+    min-width  : 2em;
+}
+
+.b-collapsetool {
+    &:not(.b-collapsing):before {
+        transition : all 0.2s ease-in-out;
+    }
+
+    &:not(.b-collapsed):before {
+        transform : rotate(0deg);
+    }
+
+    &.b-collapsed:before {
+        transform : rotate(180deg);
+    }
+}
+
+.b-dock-top, .b-dock-bottom {
+    .b-header-title:not(:last-child) {
+        padding-right : 0.2em;
+    }
+
+    .b-tool {
+        &.b-align-start {
+            margin-block  : 0;
+            margin-inline : 0 0.4em;
+        }
+
+        &.b-align-end {
+            margin-block  : 0;
+            margin-inline : 0.4em 0;
+        }
+    }
+}
+
+.b-dock-right, .b-dock-left {
+    .b-header-title:not(:last-child) {
+        padding : 0.2em 0;
+    }
+
+    .b-tool {
+        &.b-align-start {
+            margin-block-end : 0.4em;
+        }
+
+        &.b-align-end {
+            margin-block-start : 0.4em;
+        }
+    }
+}

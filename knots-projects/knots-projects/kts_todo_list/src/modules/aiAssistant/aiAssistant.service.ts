@@ -2,7 +2,6 @@ import { Service, Inject } from "typedi";
 import { AiChatMessageInput } from "./input/aiChatMessage.input";
 import { AiChatMessagePayload } from "./payload/aiChatMessage.payload";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NotebookLmSkillService } from "./notebookLmSkill.service";
 import { AiOcrReceiptInput } from "./input/aiOcrReceipt.input";
 import { AiOcrReceiptPayload } from "./payload/aiOcrReceipt.payload";
@@ -12,7 +11,7 @@ export class AiAssistantService {
   private genAI: GoogleGenerativeAI;
   
   constructor(
-    @Inject(type => NotebookLmSkillService)
+    @Inject(() => NotebookLmSkillService)
     private readonly notebookLmSkill: NotebookLmSkillService
   ) {
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
@@ -25,7 +24,7 @@ export class AiAssistantService {
       }
 
       // 取得模型
-      const model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
       
       // Prompt 模板 (意圖路由/Intent Routing)
       const prompt = `您是 Knots 系統的專屬 AI 助理「Tracy」。
@@ -87,7 +86,7 @@ export class AiAssistantService {
         return { success: false, error: "伺服器未設定 Gemini API 金鑰 (GEMINI_API_KEY)。" };
       }
 
-      const model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
       
       const prompt = `您是一個專業的發票與收據光學辨識(OCR)專家。請從提供的圖片中擷取以下資訊，並嚴格使用 JSON 格式回覆，不要包含 markdown 標籤或任何其他文字：
 {
@@ -131,7 +130,7 @@ export class AiAssistantService {
       };
 
     } catch (e: any) {
-       return { success: false, error: \`解析失敗: \${e.message}\` };
+       return { success: false, error: `解析失敗: ${e.message}` };
     }
   }
 }

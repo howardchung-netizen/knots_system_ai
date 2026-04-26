@@ -1,0 +1,26 @@
+.b-hbox,
+.b-vbox {
+    display         : flex;
+    align-items     : stretch;
+    justify-content : flex-start;
+    position        : relative;
+
+    // this opinion is not shared by all box layouts
+    // overflow : hidden;
+
+    > .b-box-center {
+        flex : 1 1 auto;
+    }
+}
+
+.b-hbox {
+    flex-flow : row nowrap;
+}
+
+.b-vbox {
+    flex-flow : column nowrap;
+}
+
+.b-box-justify-stretch {
+    justify-content : stretch;
+}

@@ -1,0 +1,100 @@
+/**
+ * common styles for header
+ */
+
+@media (max-width : 800px) {
+    .b-trialbutton {
+        display : none;
+    }
+}
+
+.demo-header {
+    display          : flex;
+    flex-shrink      : 0;
+    align-items      : center;
+    padding          : 0.5em;
+    transition       : background-color .5s, padding .5s, font-size .1s;
+    background-color : #2667c8;
+    color            : #fff !important;
+
+    .b-widget:not(:last-child) {
+        margin-right: 0.6em;
+    }
+
+    .b-button,
+    label {
+        color : #fff !important;
+    }
+
+    a {
+        color           : #fff !important;
+        text-decoration : none;
+    }
+
+    #title-container {
+        display     : inline-flex;
+        align-items : center;
+        flex        : 1
+    }
+
+    #title {
+        display               : inline-flex;
+        align-items           : center;
+        padding-left          : 2.1em;
+        font-size             : 1.3em;
+        line-height           : 1.6em;
+        background            : url(~@bryntum/demo-resources/images/logo_bryntum_bw.png) no-repeat;
+        background-size       : 1.6em;
+        background-position-y : center;
+        white-space           : nowrap;
+
+        h1 {
+            margin      : 0;
+            font-size   : inherit;
+            font-weight : 400;
+        }
+    }
+
+    .b-theme-combo {
+        margin-right : 0.6em;
+    }
+
+    #tools {
+        display          : flex;
+        align-items      : center;
+        background-color : inherit;
+        transition       : background-color 0s, margin-top .3s;
+
+        .b-widget {
+            font-size   : 1em;
+            font-weight : 400;
+        }
+
+        > .b-widget:not([data-group]) {
+            margin-left : .5em;
+            display     : inline-flex;
+        }
+
+        .b-button {
+            color       : #fff;
+            margin-left : .5em;
+            border      : 0 none;
+        }
+
+        .b-button:hover:not(.b-disabled) {
+            background-color : rgba(255, 255, 255, 0.3);
+        }
+
+        .b-field {
+            margin-right : 0;
+        }
+
+        .b-numberfield {
+            width : 18em;
+        }
+    }
+
+    .b-has-label.b-bright:not(.b-disabled) label {
+        color : #fff;
+    }
+}

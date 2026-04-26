@@ -1,0 +1,151 @@
+@import '../../icon-font';
+@import '../../../fontawesome/scss/variables';
+@import '../material/material-colors';
+
+$blue                                    : $blue500;
+$deep-orange                             : $deeporange500;
+$orange                                  : $orange500;
+$amber                                   : $amber500;
+$indigo                                  : $indigo500;
+$lime                                    : $lime500;
+$teal                                    : $teal500;
+$green                                   : $green500;
+$light-green                             : $lightgreen500;
+$purple                                  : $purple500;
+$yellow                                  : $yellow500;
+$red                                     : $red500;
+$dark-gray                               : $gray800 !default;
+$gray                                    : $gray500 !default;
+$light-gray                              : $gray300 !default;
+
+$primary                                 : $blue;
+$secondary                               : $orange;
+$main-color                              : $primary;
+
+$ripple-color                            : #000;
+$ripple-start-opacity                    : 0;
+$ripple-end-opacity                      : 0.1;
+
+// Embed theme details in content.
+// See DomHelper#themeInfo
+.b-theme-info:before {
+    content : '{"name":"Material"}';
+}
+
+// redefine variables here
+
+//region Widgets
+$button-default-color                    : $primary;
+$button-color                            : #fff;
+$button-text-transform                   : uppercase;
+$button-font-weight                      : 500;
+$button-padding                          : 0 .7em;
+$buttongroup-button-left-margin          : 0;
+
+$float-box-shadow                        : 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.24);
+$aligned-above-float-box-shadow          : -3px -1px 6px rgba(0, 0, 0, 0.12), 3px -2px 6px rgba(0, 0, 0, 0.24);
+
+$panel-background-color                  : #fff;
+$panel-toolbar-color                     : $gray700;
+$panel-toolbar-padding                   : .8em;
+$panel-toolbar-gap                       : .8em;
+
+$anchored-background-color               : #fff;
+$popup-background-color                  : #fff;
+$popup-color                             : $gray800;
+$menu-background-color                   : #fff;
+$menu-color                              : $gray700;
+$menu-item-border-color                  : transparent;
+$menu-item-separator-color               : $gray400;
+$menu-highlight-color                    : $gray200;
+$list-color                              : $gray700;
+$list-item-border-color                  : transparent;
+$list-highlight-color                    : $gray200;
+
+$label-color                             : $gray800;
+$label-font-size                         : .8em;
+
+$field-color                             : $gray800;
+$field-outer-border-color                : $gray500;
+$field-border-radius                     : 0;
+$field-background-color                  : transparent;
+$field-border-width                      : 0 0 1px 0;
+$field-border-color                      : inherit;
+$field-highlight-color                   : $gray900;
+$field-input-padding                     : 0.79em 0;
+$field-active-label-color                : $primary;
+$container-label-color                   : $label-color;
+$field-container-active-label-color      : $field-active-label-color;
+$field-disabled-border-style             : dotted;
+$field-disabled-label-color              : $gray400;
+$field-placeholder-color                 : $gray500;
+$field-disabled-trigger-color            : $gray300;
+$field-end-trigger-padding               : 0.5em 0;
+$field-start-trigger-padding             : 0 0.5em;
+
+$checkbox-box-color                      : transparent;
+$checkbox-box-padding                    : 0;
+$checkbox-box-font-size                  : 1.1em;
+$checkbox-box-width                      : 1.2em;
+$checkbox-box-height                     : 1.2em;
+$checkbox-box-border-color               : $gray500;
+$checkbox-disabled-box-border-color      : $gray200;
+$checkbox-box-border-width               : 2px;
+$checkbox-checked-box-color              : #fff;
+$checkbox-checked-box-background-color   : $primary;
+$checkbox-checked-box-border-color       : $primary;
+
+$radio-checked-box-color                 : $primary;
+$radio-checked-box-background-color      : transparent;
+
+$mask-color                              : $white;
+$mask-background-color                   : $primary;
+
+$widget-text-bright-color                : $black;
+$widget-border-radius                    : 2px;
+$widget-border-width                     : 0;
+$widget-badge-color                      : #fff;
+$widget-badge-background-color           : $red500;
+$widget-font-weight                      : 400;
+$widget-border-color                     : $gray600;
+$widget-disabled-border-color            : $gray300;
+
+$slider-thumb-color                      : lighten($primary, 10%);
+$slider-thumb-radius                     : 6px; // input[type="range"] seems doesn't support em
+$slider-track-height                     : 4px; // input[type="range"] seems doesn't support em
+$slider-margin                           : $slider-thumb-radius 0;
+$slider-contrast                         : 5%;
+
+$toast-color                             : $gray800;
+$toast-progress-color                    : $primary;
+
+$tooltip-color                           : $white;
+$tooltip-background-color                : $gray700;
+
+$tabpanel-background-color               : transparent;
+$tabpanel-border-width                   : 0;
+$tabpanel-border-color                   : transparent;
+
+$tabpanel-body-padding                   : 1em 0;
+
+$tabpanel-tab-font-weight                : 400;
+$tabpanel-tab-color                      : $gray600;
+$tabpanel-tab-min-width                  : 6em;
+$tabpanel-tab-height                     : 3em;
+$tabpanel-tab-border-width               : 0 0 2px 0;
+$tabpanel-tab-text-transform             : uppercase;
+$tabpanel-tab-active-color               : $primary;
+$tabpanel-tab-active-border-color        : $primary;
+$tabpanel-tab-hover-background-color     : $gray200;
+$tabpanel-tab-hover-color                : $gray900;
+
+$datepicker-header-color                 : #000;
+$datepicker-header-background-color      : #fff;
+$datepicker-weekdays-color               : #888;
+$datepicker-weekdays-border-bottom       : 1px solid #bdbdbd;
+$datepicker-today-cell-border-width      : 1px;
+$datepicker-active-cell-background-color : #e8f0fe;
+
+//endregion
+
+@import '../../variables';

@@ -1,0 +1,12 @@
+@import '../../icon-font';
+@import '../../../fontawesome/scss/variables';
+@import '../../variables';
+
+$button-default-color : scale-color($gray, $lightness : 20%);
+
+// Embed theme details in content.
+// See DomHelper#themeInfo
+.b-theme-info:before {
+    content : '{"name":"Classic"}';
+}
+

@@ -1,0 +1,70 @@
+{
+  "name": "advanced",
+  "description": "React Gantt Chart Advanced Demo",
+  "version": "5.0.1",
+  "author": {
+    "name": "Bryntum",
+    "url": "https://bryntum.com",
+    "email": "info@bryntum.com"
+  },
+  "license": "commercial",
+  "homepage": "/cms/gantt_chart/",
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS='--max-old-space-size=8192' react-scripts start",
+    "build": "cross-env NODE_OPTIONS='--max-old-space-size=8192' react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "postinstall"
+  },
+  "postinstall": {
+    "node_modules/@bryntum/demo-resources/images/favicon.png": "copy public/favicon.png",
+    "node_modules/@bryntum/demo-resources/images/users/*": "copy public/users/",
+    "node_modules/@bryntum/gantt/*.css": "copy public/themes/",
+    "node_modules/@bryntum/gantt/fonts/*": "copy public/themes/fonts/"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
+    "@bryntum/demo-resources": "1.1.0",
+    "@bryntum/gantt": "5.0.1",
+    "@bryntum/gantt-react": "5.0.1",
+    "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-batch-http": "^1.2.14",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-ws": "^1.0.20",
+    "apollo-upload-client": "^12.1.0",
+    "apollo-utilities": "^1.3.4",
+    "cross-env": "~7.0.2",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "moment": "^2.29.2",
+    "react": "~16.14.0",
+    "react-dom": "~16.14.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "~3.4.4",
+    "subscriptions-transport-ws": "^0.9.16",
+    "underscore": "^1.13.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "babel-preset-react-app": "npm:@bryntum/babel-preset-react-app@10.0.0",
+    "postinstall": "~0.7.0",
+    "sass": "~1.42.0"
+  },
+  "browserslist": {
+    "production": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}

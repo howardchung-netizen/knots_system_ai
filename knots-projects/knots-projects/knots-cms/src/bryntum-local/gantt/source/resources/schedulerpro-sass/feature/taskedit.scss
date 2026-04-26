@@ -1,0 +1,30 @@
+@import '../variables';
+
+.b-popup.b-taskeditor {
+    @extend .b-taskeditor;
+
+    .b-schedulertaskeditor-content.b-popup-content {
+        padding-bottom : 0;
+    }
+
+    .b-bottom-toolbar {
+        > button {
+            flex         : none;
+            width        : 10em;
+            margin-right : .5em;
+            min-height   : 2.5em;
+
+            &:last-child {
+                margin-right : 0;
+            }
+        }
+    }
+
+    .b-chip {
+        font-size : .9em;
+    }
+}
+
+.b-schedulerpro-taskeditor .b-watermark {
+    display : none;
+}

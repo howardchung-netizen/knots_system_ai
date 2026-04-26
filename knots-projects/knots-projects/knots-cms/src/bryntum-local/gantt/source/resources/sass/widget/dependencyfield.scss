@@ -1,0 +1,32 @@
+@import '../variables';
+
+.b-dependency-list .b-list-item[data-index='0'] {
+    border-top : none;
+}
+
+.b-dependency-list-filter {
+    position         : sticky;
+    top              : 0;
+    z-index          : 1;
+
+    // The filter field must occlude the list since it is position: sticky
+    background-color : $list-background-color;
+
+    .b-field-inner {
+        border : none;
+    }
+
+    border-bottom    : 1px solid $widget-border-color;
+    border-radius    : 0;
+}
+
+// Move trigger icon to the left a bit for material, for better look
+.b-theme-material .b-dependency-list-filter {
+    .b-icon-filter {
+        margin-left : .5em;
+    }
+
+    .b-icon-remove {
+        margin-right : .5em;
+    }
+}

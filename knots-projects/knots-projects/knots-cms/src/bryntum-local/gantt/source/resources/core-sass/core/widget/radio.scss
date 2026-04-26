@@ -1,0 +1,34 @@
+@import '../../variables';
+
+.b-radio {
+    > .b-field-inner {
+        label.b-radio-label::before {
+            @extend .b-icon-radio;
+            border-radius : 50%;
+            color         : $radio-unchecked-box-color;
+            line-height   : inherit;
+            font-size     : 0.8em;
+            width         : $radio-size;
+            height        : $radio-size;
+        }
+
+        .b-radio-label:before {
+            transition : none;
+        }
+
+        input[type=radio]:checked + .b-radio-label:before {
+            color            : $blue;
+            background-color : $radio-checked-box-background-color;
+            border-color     : $blue;
+        }
+    }
+}
+
+// To win over strange checkbox non-symmetric margin
+.b-container .b-radio {
+    > .b-field-inner {
+        label.b-radio-label::before {
+            margin-top : $checkbox-container-vertical-margin;
+        }
+    }
+}

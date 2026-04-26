@@ -1,0 +1,39 @@
+/**
+ * SCSS file for Lato font
+ */
+
+ @font-face {
+    font-family: Lato;
+    src: url('~@bryntum/demo-resources/fonts/lato/Lato-Light.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-LightItalic.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Light.woff') format('woff'), /* Pretty Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-LightItalic.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight: 300;
+  }
+
+  @font-face {
+    font-family: Lato;
+    src: url('~@bryntum/demo-resources/fonts/lato/Lato-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Italic.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Italic.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: Lato;
+    src: url('~@bryntum/demo-resources/fonts/lato/Lato-Medium.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-MediumItalic.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Medium.woff') format('woff'), /* Pretty Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-MediumItalic.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight: 500;
+  }
+
+  @font-face {
+    font-family: Lato;
+    src: url('~@bryntum/demo-resources/fonts/lato/Lato-Heavy.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-HeavyItalic.woff2') format('woff2'), /* Super Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-Heavy.woff') format('woff'), /* Pretty Modern Browsers */
+         url('~@bryntum/demo-resources/fonts/lato/Lato-HeavyItalic.woff') format('woff'); /* Pretty Modern Browsers */
+    font-weight: 800;
+  }

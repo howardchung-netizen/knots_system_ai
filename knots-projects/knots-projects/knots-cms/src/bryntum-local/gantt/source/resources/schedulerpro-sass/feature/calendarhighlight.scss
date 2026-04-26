@@ -1,0 +1,20 @@
+@import '../variables';
+
+.b-sch-highlighted-calendar-range {
+    position           : absolute;
+    display            : flex;
+    align-items        : center;
+    justify-content    : center;
+    color              : $schedulerpro-highlighted-calendar-color;
+    background         : $schedulerpro-highlighted-calendar-background-color;
+    border             : 2px dashed $schedulerpro-highlighted-calendar-border-color;
+    animation-name     : fadeInOpacity;
+    animation-duration : 0.2s;
+    overflow           : hidden;
+
+    .b-sch-event-content {
+        font-size  : $event-font-size;
+        padding    : .5em;
+        text-align : center;
+    }
+}

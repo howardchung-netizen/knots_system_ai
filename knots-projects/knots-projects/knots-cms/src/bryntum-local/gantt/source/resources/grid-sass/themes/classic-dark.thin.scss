@@ -1,0 +1,11 @@
+@import 'vars/classic-dark-vars';
+@import '../all';
+
+// Theme specific styling
+.b-grid-cell a {
+    color : lighten($blue, 25);
+
+    &:visited {
+        color : lighten($blue, 20);
+    }
+}

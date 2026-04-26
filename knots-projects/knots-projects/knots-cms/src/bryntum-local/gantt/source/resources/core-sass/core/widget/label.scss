@@ -1,0 +1,18 @@
+@import '../../variables';
+
+.b-label {
+    align-items    : center;
+    color          : $label-color;
+    font-size      : $label-font-size;
+    text-transform : $label-text-transform;
+    font-weight    : $label-font-weight;
+    text-align     : $label-text-align;
+    white-space    : nowrap;
+    text-overflow  : ellipsis;
+
+    .b-container & {
+        color               : $container-label-color;
+        margin-inline-start : $field-container-margin-left;
+    }
+}
+

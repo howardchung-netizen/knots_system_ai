@@ -1,0 +1,18 @@
+$fa-css-prefix    : b-fa;
+$fa-font-path     : 'fonts' !default;
+
+@import '../fontawesome/scss/mixins';
+@import '../fontawesome/scss/solid.scss';
+
+$icon-font        : 'Font Awesome 6 Free', FontAwesome6Free !default;
+$icon-font-weight : 900 !default;
+
+// Defined here and not in icons.scss since other products @extend it in some places,
+// need to make it available to them without dragging full Font Awesome into their thin bundles.
+
+.b-content-icon {
+    @include fa-icon();
+    font-family    : $icon-font;
+    font-weight    : $icon-font-weight;
+    vertical-align : 0;
+}

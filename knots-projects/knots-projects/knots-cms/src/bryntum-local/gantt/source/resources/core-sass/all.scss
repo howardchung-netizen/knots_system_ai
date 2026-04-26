@@ -1,0 +1,114 @@
+@import 'icons';
+
+@import 'colors';
+
+@import 'core/core';
+
+@import 'core/mixin/hoverable';
+
+@import 'core/helper/draghelper';
+@import 'core/helper/util/demobot';
+
+// widget.scss should be imported first of the widgets, to allow easier overriding
+@import 'core/widget/widget';
+@import 'core/widget/badge';
+@import 'core/widget/button';
+@import 'core/widget/buttongroup';
+@import 'core/widget/calendarpanel';
+@import 'core/widget/checkbox';
+@import 'core/widget/combo';
+@import 'core/widget/container';
+@import 'core/widget/datepicker';
+@import 'core/widget/editor';
+@import 'core/widget/field';
+@import 'core/widget/filepicker';
+@import 'core/widget/displayfield';
+@import 'core/widget/pickerfield';
+@import 'core/widget/datefield';
+@import 'core/widget/datetimefield';
+@import 'core/widget/label';
+@import 'core/widget/list';
+@import 'core/widget/chipview';
+@import 'core/widget/mask';
+@import 'core/widget/messagedialog';
+@import 'core/widget/pagingtoolbar';
+@import 'core/widget/panel';
+@import 'core/widget/fieldset';
+@import 'core/widget/popup';
+@import 'core/widget/menu';
+@import 'core/widget/radio';
+@import 'core/widget/ripple';
+@import 'core/widget/slider';
+@import 'core/widget/slidetoggle';
+@import 'core/widget/splitter';
+@import 'core/widget/timefield';
+@import 'core/widget/timepicker';
+@import 'core/widget/toast';
+@import 'core/widget/tooltip';
+@import 'core/widget/textareafield';
+@import 'core/widget/toolbar';
+@import 'core/widget/tabpanel';
+@import 'core/widget/undoredo';
+
+@import 'core/widget/graph/histogram';
+@import 'core/widget/graph/scale';
+
+@import 'core/widget/layout/box';
+@import 'core/widget/layout/card';
+@import 'core/widget/layout/fit';
+
+@import 'core/widget/util/avatarrendering';
+
+//region Live clock
+
+.b-icon-clock-live {
+    background-color : $field-trigger-color;
+    border-radius    : 50%;
+    width            : 1em;
+    height           : 1em;
+    position         : relative;
+    animation-delay  : 0s;
+
+    &:before,
+    &:after {
+        position      : absolute;
+        display       : block;
+        font-size     : 1em !important;
+        content       : "";
+        width         : .10em !important;
+        left          : .44em; /* half width of clock - half width of hand */
+        background    : #fff;
+        border-radius : .5em;
+    }
+
+    &:before {
+        top                  : .15em;
+        // need !important since i:before has fixed height when used in fields etc. need to override it
+        height               : .4em !important; /* half the width/height of the clock */
+        transform-origin     : .05em .35em;
+        animation            : rotate 6s infinite linear;
+        animation-play-state : paused;
+        animation-delay      : inherit;
+    }
+
+    &:after {
+        top                  : .22em;
+        height               : .33em; /* top + height for little hand must = top + height for big hand */
+        transform-origin     : .05em .3em;
+        animation            : rotate 72s infinite linear; /* time should be big-hand time * 12 */
+        animation-play-state : paused;
+        animation-delay      : inherit;
+    }
+}
+
+/* Animations */
+@keyframes rotate {
+    0% {
+        transform : rotate(0deg);
+    }
+    100% {
+        transform : rotate(360deg);
+    }
+}
+
+//endregion

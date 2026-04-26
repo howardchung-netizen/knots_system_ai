@@ -1,0 +1,56 @@
+// added to any element that's dragged (cloned proxy + inline)
+.b-dragging {
+    z-index        : 100;
+    pointer-events : none !important;
+    opacity        : 0.8;
+    box-sizing     : border-box;
+
+    &.b-drag-unified-proxy {
+        opacity : 0.65;
+    }
+
+    // Applied to the main dragged element when using unified proxy mode
+    &.b-drag-main {
+        z-index : 101;
+        opacity : 1;
+    }
+}
+
+/*
+ Used when Drag code is creating a separate proxy element representing the dragged element,
+   as opposed to the 'inline' drag of the actual element
+*/
+.b-drag-proxy {
+    position       : absolute !important;
+    top            : 0;
+    left           : 0;
+    pointer-events : none !important;
+
+    // Needed for when a proxy is inserted outside of our widgets into the browser body which may still
+    // be using content-box sizing.
+    box-sizing     : border-box;
+
+    * {
+        box-sizing : border-box;
+    }
+}
+
+.b-aborting,
+.b-drag-final-transition {
+    transition-duration: .3s;
+    // Ensuring there will be a transitionEnd event, which we rely upon in the DragHelper abort / finalizing code
+    // !important used since we need to protect from CSS rules with higher specificity overriding this rule
+    transition-property : all !important;
+}
+
+.b-drag-unified-animation {
+    transition : transform .2s;
+}
+
+.b-drag-original.b-hidden {
+    display : none !important;
+}
+
+.b-draghelper-active * {
+    @include user-select-none();
+}

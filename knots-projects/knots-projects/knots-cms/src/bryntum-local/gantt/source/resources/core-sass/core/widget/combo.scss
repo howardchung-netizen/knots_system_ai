@@ -1,0 +1,101 @@
+@import '../../variables';
+
+.b-combo {
+    .b-fieldtrigger.b-icon-picker:before {
+        transition : transform 0.3s;
+    }
+
+    &.b-open {
+        .b-fieldtrigger.b-icon-picker:before {
+            transform : rotate(180deg);
+        }
+    }
+
+    &.b-inline-picker {
+        // If it's label above, it will be flex-direction: column, so will naturally flow down.
+        // If not, the inner has to insist on its flex:1, share with no shrink amd the inline
+        // list has to wrap to the row below, and also flex to full width.
+        &:not(.b-label-above) {
+            flex-wrap     : wrap;
+            align-content : flex-start;
+
+            .b-field-inner {
+                flex-shrink: 0;
+                align-self: flex-start;
+            }
+            .b-combo-picker {
+                flex : 1 0 100%;
+            }
+        }
+    }
+
+    // make clearable icon smaller in combo, to better match trigger icon
+    .b-field-inner .b-fieldtrigger.b-icon-remove {
+        font-size : .8em;
+    }
+
+    &.b-hide-trigger, &.b-readonly {
+        .b-fieldtrigger.b-icon-picker {
+            display : none;
+        }
+    }
+
+    &.b-uses-chipview {
+        .b-field-inner {
+            align-self : stretch;
+        }
+
+        // Chip view should flow inline when inside a multiselect.
+        // It should consume space left free by any triggers
+        // present.
+        .b-chipview {
+            align-self  : stretch;
+            display     : flex;
+            flex-flow   : wrap;
+            flex        : 1 1 auto;
+            align-items : center;
+            margin      : 0.3em;
+
+            // When there's a ChipView visible, we need less padding.
+            // And the input field is layed out at the end.
+            &:not(.b-empty) {
+                input {
+                    padding-inline-start : 0.2em;
+                    order                : 99999;
+                }
+            }
+        }
+
+        // When it's not editable, the input area should be invisible but accessible (not display:none).
+        &.b-not-editable {
+            input {
+                order               : -1;
+                min-width           : 0;
+                padding-inline      : 0;
+                flex                : 0 1 0;
+                // Compensate for gap, to not leave extra room when input is not "visible"
+                margin-inline-start : -$chip-gap;
+            }
+
+            &:not(.b-empty) {
+                .b-chipview .b-chip {
+                    padding-block  : calc(0.3em + 0.5px);
+                    padding-inline : 0.7em;
+                }
+
+                input {
+                    padding : 0;
+                    height  : 0;
+                }
+            }
+        }
+    }
+}
+
+.b-list.b-combo-picker.b-empty:not(.b-masked)[data-add-new-value]::after {
+    content : attr(data-add-new-value);
+    display : block;
+    padding : .8em;
+    color   : $list-color;
+    cursor  : pointer;
+}

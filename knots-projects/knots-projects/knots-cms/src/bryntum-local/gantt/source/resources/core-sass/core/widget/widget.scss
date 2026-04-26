@@ -1,0 +1,209 @@
+@use "sass:math";
+@import '../../variables';
+
+.b-widget {
+    display      : inline-flex;
+    overflow     : hidden;
+    line-height  : initial; // protect against CSS from outside world influencing us
+    font-weight  : $widget-font-weight;
+    font-size    : 1em;
+    box-sizing   : border-box;
+    color-scheme : $widget-color-scheme;
+
+    // To make measurable, we have to override hidden display :none
+    &.b-measure {
+        display : block !important;
+    }
+
+    // Floating and positioned widgets which show an anchor need the anchor to appear outside bounds.
+    &.b-anchored {
+        overflow : visible;
+    }
+
+    &.b-maximized {
+        transform  : none !important;
+        width      : 100% !important;
+        height     : 100% !important;
+        max-width  : 100% !important;
+        max-height : 100% !important;
+    }
+
+    * {
+        box-sizing : border-box;
+    }
+
+    &:before,
+    &:after,
+    *:before,
+    *:after {
+        box-sizing : border-box;
+    }
+
+    // Widgets which are positioned: true are like floating, but they are rendered inside another widget's
+    // contentElement, and positioned relative to that element. For example Editors.
+    &.b-positioned {
+        position : absolute;
+        top      : 0;
+        left     : 0;
+    }
+
+    // Floating and positioned widgets which are centered are absolutely positioned in the center.
+    // Cannot use flexbox centering in case multiple centered floaters are displayed.
+    &.b-floating,
+    &.b-positioned {
+        &.b-centered {
+            left      : 50%;
+            top       : 50%;
+            transform : translate(-50%, -50%);
+        }
+    }
+
+    > .b-focus-trap {
+        // By default, these are not tabbable and use no resource.
+        position : absolute;
+        display  : none;
+
+        // When given layout, they are accessible but invisible.
+        clip     : rect(0, 0, 0, 0);
+    }
+
+    // Only make tabbable if the widget is tagged with the
+    // focus-trapped class *and* it contains focus.
+    &.b-focus-trapped.b-contains-focus > .b-focus-trap {
+        display : inherit;
+    }
+
+    &.b-hidden {
+        display : none !important; // ugly but needed since subclasses can override normal display with more specificity
+    }
+
+    // During an animated hide, the element must not be interactive
+    &.b-hiding {
+        pointer-events : none;
+    }
+
+    .b-aria-desc-element {
+        position  : absolute;
+        clip-path : polygon(0 0);
+        contain   : strict;
+    }
+
+    .b-widget-inner {
+        width    : 100%;
+        position : relative;
+        flex     : 1;
+    }
+
+    .b-anchor {
+        width    : $widget-anchor-width;
+        height   : $widget-anchor-height;
+        position : absolute;
+        z-index  : -1; // content element must occlude line ends.
+
+        svg {
+            position : absolute;
+            top      : 0;
+            overflow : visible // So that the shadow is visible
+        }
+
+        &.b-anchor-top {
+            left   : 0;
+            bottom : calc(100% - 1px);
+        }
+
+        &.b-anchor-bottom {
+            left : 0;
+            top  : calc(100% - 1px);
+
+            svg {
+                transform : rotate(180deg);
+            }
+        }
+
+        &.b-anchor-left {
+            top    : 0;
+            width  : $widget-anchor-height;
+            height : $widget-anchor-width;
+            right  : calc(100% - 1px);
+
+            svg {
+                transform        : rotate(270deg);
+                transform-origin : $widget-anchor-height $widget-anchor-height;
+            }
+        }
+
+        &.b-anchor-right {
+            top    : 0;
+            width  : $widget-anchor-height;
+            height : $widget-anchor-width;
+            left   : calc(100% - 1px);
+
+            svg {
+                transform        : rotate(90deg);
+                transform-origin : math.div($widget-anchor-height, 2) math.div($widget-anchor-height, 2);
+            }
+        }
+    }
+
+    // Anchor needs to be moved for RTL
+    &.b-rtl {
+        > .b-anchor {
+            &.b-anchor-left {
+                right : calc(100% - 1px - #{math.div($widget-anchor-width, 2)});
+            }
+
+            &.b-anchor-right {
+                left : calc(100% - 1px + #{math.div($widget-anchor-width, 2)});
+            }
+        }
+    }
+}
+
+.b-widget-scroller {
+    overflow                   : hidden; // overridden inline by the Scroller
+    -webkit-overflow-scrolling : touch;
+    overflow-anchor            : none; /* without this we see weird issues in Mac Chrome <= 63 with no scrollbar, covered in Tree.t.js */
+
+    // This section is for handling overflowX/Y : 'hidden-scroll` in the Scroller utility class.
+    // We hide scrollbars. This is only done if the other axis is either overflow:hidden or also hidden-scroll
+    // because it hides *both* scrollbars.
+    &.b-hide-scroll {
+        // Blink and WebKit support: https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+        &::-webkit-scrollbar {
+            display : none;
+        }
+
+        // Firefox support: https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-width
+        scrollbar-width    : none;
+    }
+}
+
+.b-scroller-stretcher {
+    position : absolute;
+    top      : 0;
+    left     : 0;
+    height   : 1px;
+    width    : 1px;
+}
+
+.b-text-align-start,
+.b-text-align-left {
+    text-align : start;
+}
+
+.b-text-align-center {
+    text-align : center;
+}
+
+.b-text-align-end,
+.b-text-align-right {
+    text-align : end;
+}
+
+.b-rtl {
+    direction : rtl;
+}
+
+.b-ltr {
+    direction : ltr;
+}

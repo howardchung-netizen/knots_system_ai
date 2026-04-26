@@ -1,0 +1,38 @@
+@import '../variables.scss';
+
+.b-sch-highlight-container {
+    position            : absolute;
+    top                 : 0;
+    left                : 0;
+    pointer-events      : none;
+
+    .b-unavailable {
+        background : $schedulerpro-unavailable-time-background;
+    }
+}
+
+.b-sch-highlighted-range {
+    position        : absolute;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    color           : $schedulerpro-highlighted-range-color;
+    font-size       : $event-font-size;
+}
+
+
+.b-sch-highlighted-range-default {
+    background         : $schedulerpro-highlighted-range-background;
+    border             : 2px dashed $schedulerpro-highlighted-range-border-color;
+    animation-name     : fadeInOpacity;
+    animation-duration : 0.2s;
+}
+
+
+.b-timelinebase.b-transition-highlight {
+    .b-sch-highlighted-range[data-sync-id] {
+        transition-property : width, height, left, top, opacity;
+        transition-duration : 0.3s;
+    }
+}
+

@@ -1,0 +1,50 @@
+@import '../../variables';
+
+.b-timepicker {
+    width : 21em;
+
+    &.b-24h {
+        width : 12.8em
+    }
+
+    .b-panel-content {
+        display        : flex;
+        flex-direction : row;
+        align-items    : center;
+        padding        : 0.3em;
+        flex-wrap      : nowrap;
+
+        // Field labels must be present for A11Y purposes, but are clipped out of visibility.
+        // Screen readers will be able to access them and announce them.
+        .b-field > .b-label {
+            clip-path : inset(0, 100%, 100%, 0);
+            position  : absolute;
+            contain   : strict;
+        }
+
+        .b-widget {
+            margin : 0.3em;
+
+            &.b-html {
+                margin : 0;
+            }
+
+            label {
+                font-weight : bold;
+            }
+        }
+
+        .b-numberfield {
+            flex : 0 1 5.3em;
+        }
+
+        .b-button {
+            flex    : 0 0 3em;
+            padding : 0;
+
+            label {
+                text-overflow : clip;
+            }
+        }
+    }
+}

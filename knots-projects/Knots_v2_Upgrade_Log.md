@@ -46,6 +46,12 @@
 *   **解決痛點**：澈底排除過往因印表或轉存時小於 1% 的偏差，導致比對引擎「錯把馮京當馬涼」，將整面圖紙標滿差異紅圈的歷史遺留問題。
 4. **擴充 RAG 技術**：接入 Google Drive API 將其餘文件轉成向量存儲庫。
 
+### Phase 5: 核心模組修復與 AI 助手實裝 (Core Bugfixes & AI Integration) (已完成)
+*(2026-04-25 Update)*
+*   **會計模組架構同步 (Accounting Data Fix)**：修正前端 GraphQL 查詢格式，將舊版 `pagination` 改寫為 Relay Connection `edges { node }` 架構，徹底解決應收、應付清單及專案毛利表「無法載入」的致命錯誤。
+*   **甘特圖顯示異常修復 (Gantt Visibility)**：移除導致畫面「隱形」且存在路徑遺失問題的 `IframeGantt`，直接將 `ScreenGantt` 元件掛載於專案視圖，並修復了權限 Token 的繼承機制，讓專案進度表功能恢復正常滿版運作。
+*   **AI 助手真實串接 (Gemini Live Chat)**：汰除 `AiChatWidget.js` 內的靜態假資料與 `setTimeout`，成功與後端 `sendAiMessage` GraphQL Mutation 對接。系統現在可以真實呼叫後端的 Gemini 模型並進行即時問答。
+
 ### 🛑 需要老闆支援的事項 (Blocked / Action Required)
 本章節為卡關要素，請當您有時間時協助排解：
 *   **[會計人員測試與舊功能刪除確認]**：目前已在選單 (`knots-cms/src/constants/pageMenu.js`) 隱藏舊有的「會計紀錄、自動入帳、財務報表」功能。請通知會計同事針對目前的新版 Excel 原生化模組進行測試，一旦確認沒有任何操作障礙，請回覆系統進行「正式刪除舊版程式碼」的清理作業。

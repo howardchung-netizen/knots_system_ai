@@ -1,0 +1,42 @@
+.b-datepicker {
+    .b-icon-circle {
+        position   : $datepicker-cell-bullet-position;
+        font-size  : $datepicker-cell-bullet-size;
+        color      : $datepicker-cell-bullet-color;
+        margin-top : $datepicker-cell-bullet-margin;
+        transform  : $datepicker-cell-bullet-transform;
+    }
+
+    .b-selected-date .b-icon-circle {
+        color : $datepicker-selected-cell-bullet-color;
+    }
+
+    .b-cell-events-badge {
+        display          : flex;
+        align-content    : center;
+        justify-content  : center;
+        border-radius    : 50%;
+
+        font-size        : $datepicker-cell-badge-font-size;
+        background-color : $datepicker-cell-badge-background-color;
+        color            : $datepicker-cell-badge-color;
+        width            : $datepicker-cell-badge-size;
+        height           : $datepicker-cell-badge-size;
+        transform        : $datepicker-cell-badge-transform;
+    }
+}
+
+.b-datepicker-with-events {
+    .b-calendar-weekdays {
+        padding-bottom : $datepicker-with-events-cell-padding-top;
+    }
+
+    .b-calendar-week .b-calendar-cell {
+        height          : $datepicker-with-events-cell-size;
+        margin          : $datepicker-with-events-cell-margin;
+        width           : $datepicker-with-events-cell-size;
+        gap             : $datepicker-with-events-cell-gap;
+        justify-content : $datepicker-with-events-cell-justify;
+        padding-top     : $datepicker-with-events-cell-padding-top;
+    }
+}

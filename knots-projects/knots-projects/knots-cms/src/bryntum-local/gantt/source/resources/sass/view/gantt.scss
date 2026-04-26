@@ -1,0 +1,158 @@
+@import '../variables';
+@import '../../scheduler-sass/view/eventrendering';
+
+// base styles are defined in scheduler
+
+// Cannot use background-image approach for gantt, because of parent task "ears"
+$ignore-drag-resize : 'b-never'; //'b-gantt:not(.b-gantt-resizing-task-percent):not(.b-resizing-event):not(.b-dragging-event)';
+
+
+@include eventrendering(
+    $widget-name                                : 'gantt',
+    $entity-name                                : 'task',
+    $entity-zindex                              : $event-zindex,
+    $entity-font-weight                         : $event-font-weight,
+    $entity-font-size                           : $event-font-size,
+    $entity-default-transition                  : $event-default-transition,
+    $interacting-entity-zindex                  : $interacting-event-zindex,
+    $entity-bar-background-color                : $gantt-task-background-color,
+    $entity-bar-color                           : $event-bar-color,
+    $entity-bar-padding-left                    : 0,
+    $entity-bar-hover-background-color          : $event-bar-hover-background-color,
+    $entity-bar-hover-color                     : $event-bar-hover-color,
+    $entity-selected-zindex                     : $selected-event-zindex,
+    $entity-bar-selected-background-color       : $event-bar-selected-background-color,
+    $entity-bar-selected-color                  : $event-bar-selected-color,
+    $entity-selected-font-weight                : $event-selected-font-weight,
+    $entity-bar-selected-hover-background-color : $event-bar-selected-hover-background-color,
+    $entity-bar-selected-hover-color            : $event-bar-selected-hover-color,
+    $entity-milestone-color                     : $gantt-milestone-background-color,
+    $entity-milestone-hover-color               : null,
+    $entity-milestone-selected-color            : null,
+    $entity-milestone-selected-hover-color      : null,
+    $entity-milestone-zindex                    : $milestone-zindex,
+    $entity-labels-color                        : $event-labels-color,
+    $selected-entity-labels-color               : $selected-event-labels-color,
+    $entity-parent-color                        : $gantt-parent-background-color
+);
+
+// TODO: Move suitable rules to eventrendering mixin
+
+.b-gantt-task-wrap {
+    // Gantt tasks are all the same height
+    height  : 1em;
+    display : flex;
+
+    &.b-inactive {
+        .b-gantt-task {
+            filter  : $gantt-inactive-task-filter;
+            opacity : $gantt-inactive-task-opacity;
+        }
+
+        .b-sch-label {
+            color : $gantt-inactive-task-label-color;
+        }
+    }
+}
+
+.b-gantt-task {
+    border-radius : $gantt-task-border-radius;
+    flex          : 1;
+
+    &.b-task-selected,
+    &:hover {
+        background-color : $gantt-task-hover-background-color;
+    }
+}
+
+// Text and icon in task
+.b-gantt-task-content {
+    padding       : 0 .4em;
+    font-size     : .8em;
+    width         : 100%;
+    overflow      : hidden;
+    text-overflow : ellipsis;
+    // Above percent bar
+    z-index       : 1;
+}
+
+.b-gantt-task-parent .b-gantt-task {
+    border-radius : $gantt-task-border-radius $gantt-task-border-radius 0 0;
+    max-height    : 2em;
+
+    &.b-task-selected,
+    &:hover {
+        background-color : $gantt-task-parent-hover-background-color;
+
+        &::before {
+            border-top-color  : $gantt-task-parent-hover-background-color;
+            border-left-color : $gantt-task-parent-hover-background-color;
+        }
+
+        &::after {
+            border-top-color   : $gantt-task-parent-hover-background-color;
+            border-right-color : $gantt-task-parent-hover-background-color;
+        }
+    }
+}
+
+.b-gantt-task-wrap.b-gantt-task-parent.b-active .b-gantt-task {
+    // Cannot use outline because of the clip-path used to shape parents
+    outline : none;
+}
+
+// Focus outline for parent tasks, in wrapper because of clip-path
+.b-using-keyboard .b-gantt-task-wrap.b-gantt-task-parent.b-active::before {
+    content        : '';
+    position       : absolute;
+    width          : 100%;
+    height         : 100%;
+    outline        : $grid-cell-focused-outline-width $grid-cell-focused-outline-style $grid-cell-focused-outline-color;
+    outline-offset : 3px;
+}
+
+.b-gantt .b-gantt-task-wrap {
+    &.b-over-resize-handle {
+        .b-gantt-task {
+            cursor : ew-resize !important;
+        }
+    }
+
+    &.b-milestone-wrap {
+        margin-left : 0;
+    }
+}
+
+
+.b-gantt.b-resizing-event * {
+    @include user-select-none();
+    cursor : ew-resize !important;
+}
+
+.b-new-column-column {
+    .b-grid-header-text {
+        display : none;
+    }
+}
+
+.b-new-column-combo {
+    .b-field-inner {
+        background-color : transparent;
+        border           : 0 none;
+
+        input {
+            padding : 0;
+        }
+    }
+}
+
+.b-gantt .b-grid-subgrid-locked .b-grid-row.b-inactive .b-grid-cell {
+    // do not strikeout these columns
+    &[data-column="name"], &[data-column="startDate"], &[data-column="endDate"], &[data-column="earlyStartDate"], &[data-column="earlyEndDate"],
+    &[data-column="lateStartDate"], &[data-column="lateEndDate"], &[data-column="wbsValue"], &[data-column="fullDuration"], &[data-column="fullEffort"],
+    &[data-column="schedulingMode"], &[data-column="constraintType"], &[data-column="calendar"], &[data-column="deadline"],
+    &[data-column="totalSlack"], &[data-column="note"], &[data-column="predecessors"], &[data-column="successors"] {
+        text-decoration : $gantt-inactive-task-cell-text-decoration;
+        color           : $gantt-inactive-task-cell-color;
+    }
+}

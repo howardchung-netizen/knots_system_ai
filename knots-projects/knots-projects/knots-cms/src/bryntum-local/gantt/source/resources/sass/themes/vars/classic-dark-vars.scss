@@ -1,0 +1,10 @@
+@import '../../../schedulerpro-sass/themes/vars/classic-dark-vars';
+
+$percentcircle-background-color  : #38383D;
+
+$indicator-dates-color           : $grid-cell-border-color;
+$indicator-dates-hover-color     : darken($grid-cell-border-color, 20);
+
+$gantt-inactive-task-label-color : darken($event-labels-color, 40);
+
+$parent-area-background          : #00000025;
