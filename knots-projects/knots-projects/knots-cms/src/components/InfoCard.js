@@ -14,9 +14,9 @@ export const InfoRow = ({label, value, flexDirection, lableStyle, valueStyle}) =
 export const InfoCard = ({ title, ...props }) => {
   return (
     <>
-      <Card className='css-sqt54j' sx={{ borderRadius: 0 }}>
+      <Card className='css-sqt54j' sx={{ borderRadius: 0, backgroundColor: 'background.default', backgroundImage: 'none' }}>
         {
-          title && <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8e8e8', color: '#676767', padding: '3px' }}>
+          title && <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'background.default', color: 'text.primary', padding: '3px' }}>
             {title}
           </Typography>
         }

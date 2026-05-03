@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Route, Routes } from 'react-router-dom';
@@ -148,6 +149,7 @@ export default function MiniDrawer() {
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [agentOpen, setAgentOpen] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(window.location.pathname);
   const lessThanSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -227,7 +229,7 @@ export default function MiniDrawer() {
             {process.env.REACT_APP_WEBSITE_TITLE}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             <IconButton
               size="small"
               edge="end"
@@ -236,9 +238,13 @@ export default function MiniDrawer() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{ mr: 2 }}
             >
-              {user?.info?.username}
+              <Typography variant="body2" sx={{ mr: 1, fontWeight: 500 }}>{user?.info?.username}</Typography>
               <AccountCircle />
+            </IconButton>
+            <IconButton color="inherit" onClick={() => setAgentOpen(!agentOpen)} title="Toggle AI Assistant">
+              <SmartToyIcon />
             </IconButton>
           </Box>
         </Toolbar>
@@ -285,7 +291,7 @@ export default function MiniDrawer() {
             />
           </List>
         </Drawer>
-        <div id='main-container' style={{ height: "100vh", width: lessThanSmall ? `calc(100vw - ${open ? drawerWidth : 0 }px)` : `calc(100vw - ${open ? drawerWidth : 64 }px)`, flexDirection: "column", backgroundColor: '#F4F5FA', overflow: 'auto', transition: 'width 320ms'}}>
+        <div id='main-container' style={{ height: "100vh", flexGrow: 1, display: 'flex', flexDirection: "column", backgroundColor: theme.palette.background.default, overflow: 'auto' }}>
           <DrawerHeader />
           <Box sx={{ flexGrow: 1, p: 0, position: "relative" }}>
             <Routes>
@@ -357,8 +363,20 @@ export default function MiniDrawer() {
             </Routes>
           </Box>
         </div>
+        <Box sx={{ 
+          width: agentOpen ? (lessThanSmall ? '100vw' : 350) : 0, 
+          transition: 'width 0.3s', 
+          flexShrink: 0, 
+          overflow: 'hidden', 
+          borderLeft: `1px solid ${theme.palette.divider}`, 
+          backgroundColor: theme.palette.background.paper, 
+          display: 'flex', 
+          flexDirection: 'column' 
+        }}>
+          <DrawerHeader />
+          <AiChatWidget />
+        </Box>
       </div>
-      <AiChatWidget />
     </div>
   );
 

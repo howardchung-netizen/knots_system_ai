@@ -525,7 +525,8 @@ input[type="date"].date::-webkit-calendar-picker-indicator {
 }
 
 body {
-	background-color: #FFFFFF;
+	background-color: #1e1e1e;
+  color: #cccccc;
 }
 .print-area {
 	display: block;

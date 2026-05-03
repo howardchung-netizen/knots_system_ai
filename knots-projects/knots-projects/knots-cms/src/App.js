@@ -213,50 +213,78 @@ const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 export const _theme = createTheme(
   {
     palette: {
-      primary: { main: '#1976d2' },
-      // secondary: { main: "#fff"}
+      mode: 'dark',
+      primary: { main: '#007acc' }, // VSCode Blue
+      background: {
+        default: '#1e1e1e', // VSCode dark background
+        paper: '#252526', // VSCode panel background
+      },
       anger: createColor('#F40B27'),
       apple: createColor('#5DBA40'),
       steelBlue: createColor('#5C76B7'),
       violet: createColor('#BC00A3'),
       error: createColor('rgb(211, 47, 47)'),
       warning: createColor('rgb(237, 108, 2)'),
-      // info: createColor('rgb(2, 136, 209)'),
       success: createColor('rgb(46, 125, 50)'),
       whiteColor: createColor('#ffffff'),
       text: {
-        primary: 'rgba(60, 72, 88, 1)',
-        secondary: 'rgba(132, 146, 166, 1)',
-        disabled: 'rgba(60, 72, 88, 0.38)',
-        hint: 'rgba(60, 72, 88, 0.38)',
+        primary: '#cccccc', // VSCode default text color
+        secondary: '#858585', // VSCode dim text
+        disabled: 'rgba(255, 255, 255, 0.38)',
+        hint: 'rgba(255, 255, 255, 0.38)',
       },
+      divider: '#3c3c3c', // VSCode border color
     },
     components : {
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
-            backgroundColor: 'white',
-            color: 'rgba(60, 72, 88, 1)',
-            // border: '1px solid #dadde9',
-            // fontSize: calcFontSize(18),
-            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;'
+            backgroundColor: '#000000',
+            color: '#ffffff',
+            boxShadow: 'rgba(0, 0, 0, 0.5) 0px 4px 6px',
+            fontSize: '0.8rem',
+            fontFamily: "'Consolas', 'Fira Code', 'Courier New', monospace",
           },
         },
       },
       MuiSvgIcon: {
         styleOverrides: {
           root: {
-            // color: 'rgba(60, 72, 88, 1)',
-            fontSize: 25,
+            fontSize: 22,
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: 'none', // More professional IDE look
+            fontFamily: "'Consolas', 'Fira Code', 'Courier New', monospace",
+          }
+        }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: 'none', // Remove MUI default dark mode elevation gradient
+          }
+        }
+      }
     },
     typography: {
-      // fontSize: calcFontSize(15), // 修改字形大小，以像素為單位
-      // 在這裡修改其他字形相關的屬性
+      fontFamily: "'Consolas', 'Fira Code', 'Courier New', monospace",
+      fontSize: 13, // Smaller base font size
+      h6: {
+        fontWeight: 600,
+        fontSize: '1rem',
+        letterSpacing: '0.05em',
+      },
+      body1: {
+        fontSize: '0.85rem',
+      },
+      body2: {
+        fontSize: '0.8rem',
+      }
     },
-
   },
   zhHK,
 );
