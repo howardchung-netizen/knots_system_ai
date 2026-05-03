@@ -6,7 +6,7 @@ import { Popup, MessageDialog, Toast } from '@bryntum/gantt';
 // React libraries
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_CALENDARS, GET_COLMUN_CONFIG, GET_SHARE_LINK } from "../apollo/queries";
+import { GET_CALENDARS, GET_COLMUN_CONFIG, GET_SHARE_LINK, GET_GANTT_TEMPLATES } from "../apollo/queries";
 import { GENERATE_SHARE, DISABLE_SHARE, UPDATE_CALENDAR, UPDATE_COLUMN_CONFIG } from "../apollo/mutations";
 import moment from 'moment';
 
@@ -61,8 +61,109 @@ const Gantt = props => {
       updateCalendarPopup();
     } else if (source === 'columnConfig') {
       updateColumnConfigPopup();
+    } else if (source === 'template') {
+      insertTemplatePopup();
     }
   }
+
+  const rpTemplates = useQuery(GET_GANTT_TEMPLATES, { variables: { skip: 0, first: 100 }});
+
+  const insertTemplatePopup = async () => {
+    const callInsertTemplate = async () => {
+      const templateId = popup.widgetMap.templateField.value;
+      if (!templateId) return;
+
+      const template = rpTemplates.data?.ganttTemplates?.edges?.map(x => x.node).find(t => t.id === templateId);
+      if (!template) return;
+
+      const nodes = JSON.parse(template.nodes || '[]');
+      const edges = JSON.parse(template.edges || '[]');
+      const ganttInstance = props.ganttRef.current.instance;
+      const taskStore = ganttInstance.taskStore;
+
+      // Bryntum bulk add
+      const bryntumTasks = nodes.map(n => ({
+        id: 'template_node_' + n.id,
+        name: n.data.label,
+        duration: n.data.duration || 1,
+        durationUnit: 'd',
+        parentId: n.data.parentId ? 'template_node_' + n.data.parentId : undefined
+      }));
+
+      // Find root level tasks (without parentId or parentId not in the imported list)
+      const rootTasks = bryntumTasks.filter(t => !t.parentId);
+
+      // Build tree recursively
+      const buildTree = (tasks, allTasks) => {
+        tasks.forEach(t => {
+          const children = allTasks.filter(child => child.parentId === t.id);
+          if (children.length > 0) {
+            t.children = children;
+            buildTree(children, allTasks);
+          }
+        });
+      };
+      
+      buildTree(rootTasks, bryntumTasks);
+
+      // Add to Gantt root (or selected task if preferred, for now root)
+      const addedTasks = taskStore.rootNode.appendChild(rootTasks);
+      
+      // Bryntum dependencies (edges)
+      const bryntumDependencies = edges.map(e => ({
+        fromEvent: 'template_node_' + e.source,
+        toEvent: 'template_node_' + e.target,
+        type: 2 // 2 corresponds to Finish-To-Start (FS)
+      }));
+      
+      const dependencyStore = ganttInstance.dependencyStore;
+      dependencyStore.add(bryntumDependencies);
+      
+      Toast.show('Template Inserted!');
+      popup.hide();
+    };
+
+    const renderTemplates = () => {
+      const templates = rpTemplates.data?.ganttTemplates?.edges?.map(x => x.node) || [];
+      let items = [];
+      let choice = templates.map(t => ({ value: t.id, text: t.name }));
+
+      items.push({
+        type: 'combo',
+        items: choice,
+        ref: 'templateField',
+        label: 'Select Template:',
+        placeholder: 'Please select',
+        onChange: () => {
+          popup.widgetMap.insertBtn.disabled = !popup.widgetMap.templateField.value;
+        }
+      });
+      return items;
+    }
+
+    const popup = new Popup({
+      header: 'Insert Gantt Template',
+      autoShow: false,
+      centered: true,
+      closeAction: 'destroy',
+      closable: true,
+      width: '25em',
+      bbar: [
+        {
+          ref: 'insertBtn',
+          text: 'Insert',
+          minWidth: 100,
+          cls: 'b-raised b-blue',
+          disabled: true,
+          onAction: async () => {
+            await callInsertTemplate();
+          }
+        }
+      ],
+      items: renderTemplates()
+    });
+    popup.show();
+  };
 
   const sharePopup = async () => {
     const generateShare = async () => {

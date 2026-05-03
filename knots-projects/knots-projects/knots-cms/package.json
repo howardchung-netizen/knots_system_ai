@@ -23,6 +23,7 @@
     "@tanstack/match-sorter-utils": "^8.7.6",
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-table": "^8.7.9",
+    "@xyflow/react": "^12.10.2",
     "ajv": "^8.20.0",
     "ajv-keywords": "^5.1.0",
     "apollo-link-ws": "^1.0.20",

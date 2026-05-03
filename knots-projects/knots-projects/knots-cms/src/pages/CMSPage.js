@@ -60,6 +60,8 @@ import FinancialStatementDetail from './FinancialStatementDetail';
 import ProfitSheet from './profitSheet/ProfitSheet';
 import ProjectOrder from './ProjectOrder';
 import AiChatWidget from '../components/AiChatWidget';
+import GanttTemplateList from './GanttTemplateList';
+import GanttTemplateDetail from './GanttTemplateDetail';
 
 // 新版原生會計系統 (Phase 2)
 import AccountingDashboard from './accounting/AccountingDashboard';
@@ -331,6 +333,8 @@ export default function MiniDrawer() {
               <Route path="/quotation/:quotationId" element={<QuotationDetail/>} />
               <Route path="template" element={<QuotationTemplateList />} />
               <Route path="template/:templateId" element={<QuotationTemplateDetail />} />
+              <Route path="gantt_templates" element={<GanttTemplateList />} />
+              <Route path="gantt_template/:templateId" element={<GanttTemplateDetail />} />
               <Route path="measurement" element={<MeasurementList />} />
               <Route path="project_item" element={<ProjectItemList />} />
               <Route path="project/:projectId" element={<ProjectDetail />} />

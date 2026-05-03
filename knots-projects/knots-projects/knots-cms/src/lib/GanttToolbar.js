@@ -341,6 +341,13 @@ export default class GanttToolbar extends Toolbar {
                         text: 'Calendar Day Setup',
                         tooltip: 'Calendar Day Setup',
                         calendar: true,
+                      },
+                      {
+                        ref: 'templateButton',
+                        icon: 'b-fa b-fa-project-diagram',
+                        text: 'Insert Template',
+                        tooltip: 'Insert Template',
+                        template: true,
                       }
                     ]
                   }
@@ -637,6 +644,8 @@ export default class GanttToolbar extends Toolbar {
       this.gantt.extraData('changeLanguage');
     } else if (item.columnConfig) {
       this.gantt.extraData('columnConfig');
+    } else if (item.template) {
+      this.gantt.extraData('template');
     }
 
   }

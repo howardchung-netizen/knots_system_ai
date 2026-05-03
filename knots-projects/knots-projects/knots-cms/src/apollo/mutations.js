@@ -1683,3 +1683,37 @@ mutation quotationDuplicate($data: QuotationDuplicateInput!){
   }
 }
 `;
+
+export const CREATE_GANTT_TEMPLATE = gql`
+mutation ganttTemplateCreate($data: GanttTemplateCreateInput!){
+  ganttTemplateCreate(data: $data){
+    userErrors{
+      message
+    }
+    ganttTemplate{
+      id
+      name
+      type
+      nodes
+      edges
+    }
+  }
+}
+`;
+
+export const UPDATE_GANTT_TEMPLATE = gql`
+mutation ganttTemplateUpdate($data: GanttTemplateUpdateInput!){
+  ganttTemplateUpdate(data: $data){
+    userErrors{
+      message
+    }
+    ganttTemplate{
+      id
+      name
+      type
+      nodes
+      edges
+    }
+  }
+}
+`;

@@ -1747,3 +1747,20 @@ query tenderForms (
 }
 ${pageInfo}
 `
+
+export const GET_GANTT_TEMPLATES = gql`
+query ganttTemplates($skip: Int, $first: Int) {
+  ganttTemplates(skip: $skip, first: $first) {
+    edges {
+      node {
+        id
+        name
+        type
+        nodes
+        edges
+      }
+    }
+    totalCount
+  }
+}
+`
