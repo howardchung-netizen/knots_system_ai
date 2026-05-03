@@ -27,6 +27,7 @@ import { BOOK_KEEPING_ACC_ASSET_TYPE_ID, BOOK_KEEPING_ACC_COMPANY_ID, BOOK_KEEPI
 import { BookKeepingCompanyRepository } from '../bookKeepingCompany/bookKeepingCompany.repository';
 import { UserConnectGoogleInput } from './input/userConnectGoogle.input';
 import { UserDisconnectGoogleInput } from './input/userDisconnectGoogle.input';
+import { AiMemory } from '../aiMemory/aiMemory.entity';
 
 @Service()
 export class UserService {
@@ -228,6 +229,12 @@ export class UserService {
     });
 
     await queryRunner.manager.save(user);
+
+    const aiMemory = AiMemory.create({
+      userId: user.id,
+      content: "",
+    });
+    await queryRunner.manager.save(aiMemory);
 
     if (data.roles) {
       await this.roleService.updateUserRoles(user, data.roles, enforcer);

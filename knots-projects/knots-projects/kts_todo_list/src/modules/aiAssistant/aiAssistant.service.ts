@@ -3,45 +3,101 @@ import { AiChatMessageInput } from "./input/aiChatMessage.input";
 import { AiChatMessagePayload } from "./payload/aiChatMessage.payload";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NotebookLmSkillService } from "./notebookLmSkill.service";
+import { AiMemoryService } from "../aiMemory/aiMemory.service";
 import { AiOcrReceiptInput } from "./input/aiOcrReceipt.input";
 import { AiOcrReceiptPayload } from "./payload/aiOcrReceipt.payload";
 
 @Service()
 export class AiAssistantService {
-  private genAI: GoogleGenerativeAI;
+  private apiKeys: string[];
+  private currentKeyIndex: number = 0;
   
   constructor(
     @Inject(() => NotebookLmSkillService)
-    private readonly notebookLmSkill: NotebookLmSkillService
+    private readonly notebookLmSkill: NotebookLmSkillService,
+    @Inject(() => AiMemoryService)
+    private readonly aiMemoryService: AiMemoryService
   ) {
-    this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+    const keysStr = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
+    this.apiKeys = keysStr.split(',').map(k => k.trim()).filter(k => k.length > 0);
   }
 
-  async processMessage(input: AiChatMessageInput): Promise<AiChatMessagePayload> {
+  private getModel(modelName: string) {
+    if (this.apiKeys.length === 0) throw new Error("No Gemini API keys found");
+    const key = this.apiKeys[this.currentKeyIndex];
+    const genAI = new GoogleGenerativeAI(key);
+    return genAI.getGenerativeModel({ model: modelName });
+  }
+
+  private async generateContentWithRetry(modelName: string, prompt: any, maxRetries = 3) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const model = this.getModel(modelName);
+        return await model.generateContent(prompt);
+      } catch (error: any) {
+        // If it's a 429 Resource Exhausted error, and we have multiple keys, rotate and retry
+        if (error.status === 429 || error.message?.includes('429')) {
+          console.warn(`[AI Assistant] 429 Rate Limit hit with key index ${this.currentKeyIndex}. Rotating...`);
+          this.currentKeyIndex = (this.currentKeyIndex + 1) % this.apiKeys.length;
+          // Only wait briefly if we haven't exhausted our keys
+          if (attempt < maxRetries - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            continue; // Retry with new key
+          }
+        }
+        throw error; // Not a 429, or out of retries
+      }
+    }
+    throw new Error("Max retries exceeded for Gemini API");
+  }
+
+  async processMessage(input: AiChatMessageInput, userId?: string): Promise<AiChatMessagePayload> {
     try {
-      if(!process.env.GEMINI_API_KEY) {
-        return { response: "伺服器未設定 Gemini API 金鑰 (GEMINI_API_KEY)，請在後端設定檔中加入。" };
+      if (this.apiKeys.length === 0) {
+        return { response: "伺服器未設定 Gemini API 金鑰 (GEMINI_API_KEYS)，請在後端設定檔中加入。" };
+      }
+      
+      let memoryContext = "";
+      if (userId) {
+        const memoryContent = await this.aiMemoryService.getMemory(userId);
+        if (memoryContent) {
+          memoryContext = `\n\n【關於這位使用者的專屬記憶】：\n${memoryContent}`;
+        }
       }
 
-      // 取得模型
-      const model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
-      
-      // Prompt 模板 (意圖路由/Intent Routing)
-      const prompt = `您是 Knots 系統的專屬 AI 助理「Tracy」。
-請判斷使用者的問題是否需要查閱公司內部法規。
-這三本法規筆記的守備範圍如下：
-- [FEHD] 食環署：飲食場所牌照申請流程、相關裝修法例。
-- [BD] 屋宇署：建築條例、小型工程、入則工程 (A&A works)。
-- [FSD] 消防處：建築物及餐廳消防通風條例。
+      // Prompt 模板 (導入 Tracy 的靈魂與意圖路由/Intent Routing)
+      const prompt = `你現在是 Knots 系統的專屬資深 AI 助理「Tracy」。${memoryContext}
 
-如果使用者提出的問題需要查閱上述法規，請您「只」回覆對應的觸發標籤，例如 "[CALL_NOTEBOOKLM_FEHD]"，或者若需跨域查詢則同時寫上多個標籤 "[CALL_NOTEBOOKLM_FEHD][CALL_NOTEBOOKLM_FSD]"。此時請不要有任何其他廢話對話。
-如果問題完全不需要查法規，請直接發揮助理的角色，友善、專業地回答使用者。
+【你的角色與性格】
+你是公司內部的得力助手。你說話專業、精練、語氣溫暖但不過度熱情。你喜歡使用條列式整理重點，並預設使用繁體中文（台灣/香港用語）回答。你絕不會說出自己是語言模型，你的身分就是「Tracy」。
+
+【你的核心守則】
+1. 當被問及系統操作時，請給予友善的引導。
+2. 當無法確定答案、或缺乏背景資料時，請誠實告知，絕不捏造（Hallucinate）工程數據或法規。
+3. 對於使用者的問候，請保持專業友善的簡短回應。
+
+【法規查閱路由機制 (最高優先級)】
+我們公司有三本專屬的外部知識庫 (NotebookLM)。請嚴格判斷使用者的問題是否需要查閱以下內部法規：
+- [FEHD] 食環署：涉及飲食場所牌照申請流程、相關裝修法例、廚房規格。
+- [BD] 屋宇署：涉及建築條例、小型工程、入則工程 (A&A works)、結構改動。
+- [FSD] 消防處：涉及建築物消防安全、餐廳消防通風條例、消防設備規定。
+
+如果你判斷使用者的問題「需要」查閱上述法規才能精準回答，請你**「完全停止」**扮演對話助理，**「只」**回覆對應的觸發標籤，例如 "[CALL_NOTEBOOKLM_FEHD]"，或者若需跨域查詢則同時寫上多個標籤 "[CALL_NOTEBOOKLM_FEHD][CALL_NOTEBOOKLM_BD]"。此時請絕對不要輸出任何其他文字。
+
+如果問題「不需要」查法規，請直接以 Tracy 的身分，友善、專業地回答使用者。
+
+【專屬記憶儲存機制】
+你必須默默記下關於使用者的重要個人資訊。
+- 若使用者明確說出「請記下來」、「幫我記住」、「以後記得」等指令。
+- 若使用者提及所屬「特定專案名稱/編號」、「職位頭銜」或「直屬主管」。
+- 若使用者表達對系統輸出的格式偏好（例如：「以後給我都用英文」）。
+符合以上條件時，請在你的回覆「最下方」加上 \`[SAVE_MEMORY: 要記下的重點]\` 標籤。這不會被使用者看見。請勿記錄生活瑣事或無關工作的內容。
 
 使用者說：
 "${input.message}"
 `;
       
-      const result = await model.generateContent(prompt);
+      const result = await this.generateContentWithRetry("gemini-3.1-flash-lite-preview", prompt);
       let text = (await result.response).text();
 
       // Skill Interceptor: 攔截並轉交給 NotebookLM Puppeteer 處理
@@ -70,6 +126,17 @@ export class AiAssistantService {
         }
       }
 
+      // Memory Extraction Interceptor: 攔截並寫入記憶
+      const memoryRegex = /\[SAVE_MEMORY:\s*(.*?)\]/g;
+      let match;
+      while ((match = memoryRegex.exec(text)) !== null) {
+        const memoryToSave = match[1];
+        if (userId) {
+          await this.aiMemoryService.appendMemory(userId, memoryToSave);
+        }
+      }
+      text = text.replace(/\[SAVE_MEMORY:\s*(.*?)\]/g, "").trim();
+
       return {
         response: text,
       };
@@ -82,11 +149,9 @@ export class AiAssistantService {
 
   async ocrReceipt(input: AiOcrReceiptInput): Promise<AiOcrReceiptPayload> {
     try {
-      if(!process.env.GEMINI_API_KEY) {
-        return { success: false, error: "伺服器未設定 Gemini API 金鑰 (GEMINI_API_KEY)。" };
+      if (this.apiKeys.length === 0) {
+        return { success: false, error: "伺服器未設定 Gemini API 金鑰 (GEMINI_API_KEYS)。" };
       }
-
-      const model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
       
       const prompt = `您是一個專業的發票與收據光學辨識(OCR)專家。請從提供的圖片中擷取以下資訊，並嚴格使用 JSON 格式回覆，不要包含 markdown 標籤或任何其他文字：
 {
@@ -116,7 +181,7 @@ export class AiAssistantService {
         },
       };
 
-      const result = await model.generateContent([prompt, imagePart]);
+      const result = await this.generateContentWithRetry("gemini-3.1-flash-lite-preview", [prompt, imagePart]);
       const response = await result.response;
       const text = response.text().trim().replace(/^\`\`\`json/i, '').replace(/^\`\`\`/i, '').replace(/\`\`\`$/i, '').trim();
       

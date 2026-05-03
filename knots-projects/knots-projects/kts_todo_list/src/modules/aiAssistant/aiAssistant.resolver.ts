@@ -23,7 +23,7 @@ export class AiAssistantResolver {
     @Arg('data') data: AiChatMessageInput,
     @Ctx() {user}: ResolverContext,
   ): Promise<AiChatMessagePayload> {
-    return this.aiAssistantService.processMessage(data);
+    return this.aiAssistantService.processMessage(data, user?.id);
   }
 
   @Mutation(
