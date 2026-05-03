@@ -5,6 +5,36 @@
 
 ---
 
+## 📖 檢索目錄 (Table of Contents)
+
+- [1. 🚀 系統入門 (Getting Started)](#1--系統入門-getting-started)
+  - [1.1 登入與首頁導覽](#11-登入與首頁導覽)
+  - [1.2 個人化設定與密碼修改](#12-個人化設定與密碼修改)
+  - [1.3 通知與打卡](#13-通知與打卡)
+- [2. 🤖 AI 助理 Tracy (AI Assistant)](#2--ai-助理-tracy-ai-assistant)
+  - [2.1 呼叫與互動方式](#21-呼叫與互動方式)
+  - [2.2 專屬記憶機制 (Memory)](#22-專屬記憶機制-memory)
+  - [2.3 法規查詢指南](#23-法規查詢指南)
+- [3. 🏗️ 專案與工程管理 (Project Management)](#3-️-專案與工程管理-project-management)
+  - [3.1 工程專案立案](#31-工程專案立案)
+  - [3.2 報價單與範本 (Quotations)](#32-報價單與範本-quotations)
+  - [3.3 訂單管理 (Orders)](#33-訂單管理-orders)
+  - [3.4 進度管理 (Gantt Chart)](#34-進度管理-gantt-chart)
+  - [3.5 專案利潤 (MAIN)](#35-專案利潤-main)
+- [4. 💰 財務與會計模組 (Accounting Module)](#4--財務與會計模組-accounting-module)
+  - [4.1 財務生存導航 (Dashboard)](#41-財務生存導航-dashboard)
+  - [4.2 應收帳款 (AR)](#42-應收帳款-ar)
+  - [4.3 供應商應付 (Payable)](#43-供應商應付-payable)
+  - [4.4 營運開銷 (Overhead)](#44-營運開銷-overhead)
+  - [4.5 報銷申請 (Claims & Petty Cash)](#45-報銷申請-claims--petty-cash)
+- [5. 👥 企業管理 (Admin & Settings)](#5--企業管理-admin--settings)
+  - [5.1 員工與權限管理](#51-員工與權限管理)
+  - [5.2 客戶與聯絡人](#52-客戶與聯絡人)
+  - [5.3 系統參數設定](#53-系統參數設定)
+
+---
+
+
 ## 1. 🚀 系統入門 (Getting Started)
 
 ### 1.1 登入與首頁導覽
