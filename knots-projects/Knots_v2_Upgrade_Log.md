@@ -60,42 +60,9 @@
 
 ---
 
-## 三、 功能操作說明 (適用於 NotebookLM 轉載重點)
+## 三、 系統使用手冊 (Main Menu)
 
-### 1. 全新：Tracy (Knots AI Assistant)
-*   **如何呼叫**：網頁右下方隨時可見。
-*   **能做什麼**：
-    *   查詢系統使用教學 (如：教我怎麼立案)。
-    *   (即將上線) 後台自動登入 NotebookLM 替員工解答「員工休假規範」、「專案利潤分配法」等複雜問題。
-*   **背後原理**：採用 Google 的 Gemini 大型語言模型作為分析大腦，透過我們自建的 Puppeteer 繞過官方 API 限制，達成無縫銜接。
-
-### 2. 全新：原生財務管理 (Accounting Module)
-*(待實作完畢後會在此記錄完整的結帳與請款流程說明)*
-
-第一步：啟動本地資料庫 (最重要！)
-請打開您電腦上的 XAMPP（或是 Docker），點擊啟動 MySQL。 (如果沒有啟動 MySQL，後端程式一跑就會立刻崩潰)
-
-第二步：啟動後端 (kts_todo_list)
-請打開一個新的終端機 (PowerShell)，然後依序複製貼上並執行以下兩行指令（請整行複製，不要複製到多餘的符號）：
-
-powershell
-cd "C:\knots system\knots-projects\knots-projects\kts_todo_list"
-powershell
-npm run start
-(執行後，請等它顯示連線成功)
-
-第三步：啟動前端 (knots-cms)
-請再打開另一個新的終端機（讓後端的終端機繼續放著跑），然後依序複製貼上以下兩行指令：
-
-powershell
-cd "C:\knots system\knots-projects\knots-projects\knots-cms"
-powershell
-npm run start
-等瀏覽器自動跳出 http://localhost:3000 後，您就可以使用 howardchung@knotsltd.com 登入。
-
-還有！剛剛出現了另一個錯誤 EntityMetadataNotFoundError: No metadata for "Task" was found.。 這個錯的根本原因是：您目前的環境其實是本地開發版，但您的 .env 設定檔裡面卻寫著 NODE_ENV=production (正式區環境)，導致後端啟動時，它一直想去讀取正式區專用的 dist/ 編譯資料夾，而不是讀取本地的 src/ 原始碼資料夾，所以它一個資料庫模型 (Entity) 都找不到！
-
-為了讓您能完美在本地測試，我剛剛順手幫您做了兩件事：
-
-將後端的 .env 環境變數改為 NODE_ENV=development。
-修正了 ormconfig.json 裡面抓取 Entity 的路徑，讓它能正確對應到本地的 src/**/*.ts。
+> **[重要通知]**
+> 為提供更完善、具系統性的文件結構，並作為 AI 助理 Tracy 的操作指南 (Instruction Manual)，所有的「功能操作說明」已遷移至獨立的專屬文件夾與手冊。
+> 
+> 👉 請查閱全新的：**[Knots CMS 系統完整使用手冊 (Main Menu)](./Knots_System_Manual.md)**
